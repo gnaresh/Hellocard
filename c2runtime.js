@@ -38025,6 +38025,13 @@ cr.getProjectModel = function() { return [
 		[
 		[
 			1,
+			"notifyEnable",
+			0,
+			0,
+false,false,1246279929280467,false
+		]
+,		[
+			1,
 			"host1",
 			1,
 			"http://192.168.1.12/hellocard-app/files/",
@@ -40915,6 +40922,92 @@ false,false,8816726575399049,false
 					]
 					]
 				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.Compare,
+					null,
+					0,
+					false,
+					false,
+					false,
+					8765226141883579,
+					false
+					,[
+					[
+						7,
+						[
+							5,
+							[
+								19,
+								cr.system_object.prototype.exps["int"]
+								,[
+[
+									7,
+									[
+										5,
+										[
+											19,
+											cr.system_object.prototype.exps.tokencount
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+										,[
+											0,
+											1
+										]
+									]
+									,[
+										0,
+										5
+									]
+								]
+								]
+							]
+							,[
+								19,
+								cr.system_object.prototype.exps["int"]
+								,[
+[
+									20,
+									0,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										2,
+										"numOfNotifications"
+									]
+									]
+								]
+								]
+							]
+						]
+					]
+,					[
+						8,
+						4
+					]
+,					[
+						7,
+						[
+							23,
+							"notifyEnable"
+						]
+					]
+					]
+				]
 				],
 				[
 				[
@@ -40967,6 +41060,81 @@ false,false,8816726575399049,false
 					false
 					,[
 					[
+						7,
+						[
+							5,
+							[
+								19,
+								cr.system_object.prototype.exps["int"]
+								,[
+[
+									7,
+									[
+										5,
+										[
+											19,
+											cr.system_object.prototype.exps.tokencount
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+										,[
+											0,
+											1
+										]
+									]
+									,[
+										0,
+										5
+									]
+								]
+								]
+							]
+							,[
+								19,
+								cr.system_object.prototype.exps["int"]
+								,[
+[
+									20,
+									0,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										2,
+										"numOfNotifications"
+									]
+									]
+								]
+								]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					3184179983448002,
+					false
+					,[
+					[
+						11,
+						"notifyEnable"
+					]
+,					[
 						7,
 						[
 							5,
@@ -77818,6 +77986,26 @@ false,false,858584354635174,false
 				[
 					11,
 					"count"
+				]
+,				[
+					7,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				2151131007589951,
+				false
+				,[
+				[
+					11,
+					"notifyEnable"
 				]
 ,				[
 					7,
