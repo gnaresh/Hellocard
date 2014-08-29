@@ -25961,6 +25961,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.appMobi,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.iosdialogs,
 		true,
 		false,
@@ -25974,18 +25986,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.AJAX,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.appMobi,
 		true,
 		false,
 		false,
@@ -26081,6 +26081,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.HTML_iFrame,
+		false,
+		true,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.FacebookMod,
 		true,
 		false,
@@ -26105,31 +26117,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_iFrame,
-		false,
-		true,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.PhonegapDialog,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Keyboard,
+		cr.plugins_.Phonegap,
 		true,
 		false,
 		false,
@@ -26153,7 +26141,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Phonegap,
+		cr.plugins_.Keyboard,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.PhonegapDialog,
 		true,
 		false,
 		false,
@@ -26174,18 +26174,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		false
-	]
-,	[
-		cr.plugins_.TextBox,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 ,	[
@@ -26213,15 +26201,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.UserMedia,
+		cr.plugins_.TextBox,
 		false,
 		true,
 		true,
 		true,
 		false,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -26246,6 +26234,18 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false,
+		false
+	]
+,	[
+		cr.plugins_.UserMedia,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
 		false
 	]
 	],
@@ -31155,7 +31155,7 @@ cr.getProjectModel = function() { return [
 					0,
 					"#fcfcfc",
 					0,
-					1
+					0
 				]
 			]
 ,			[
@@ -31612,7 +31612,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[0, 101, 0, 640, 874, 0, 0, 1, 0, 0, 0, 0, []],
+				[0, 101, 0, 640, 869, 0, 0, 1, 0, 0, 0, 0, []],
 				98,
 				294,
 				[
@@ -31646,7 +31646,7 @@ cr.getProjectModel = function() { return [
 					0,
 					"#fcfcfc",
 					0,
-					1
+					0
 				]
 			]
 			],
@@ -35095,7 +35095,7 @@ cr.getProjectModel = function() { return [
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -35513,7 +35513,7 @@ cr.getProjectModel = function() { return [
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -35706,7 +35706,7 @@ cr.getProjectModel = function() { return [
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -36802,7 +36802,7 @@ cr.getProjectModel = function() { return [
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -37002,7 +37002,7 @@ cr.getProjectModel = function() { return [
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -38025,14 +38025,14 @@ cr.getProjectModel = function() { return [
 		[
 		[
 			1,
-			"host",
+			"host1",
 			1,
 			"http://192.168.1.12/hellocard-app/files/",
 false,false,6654023529906868,false
 		]
 ,		[
 			1,
-			"host2",
+			"host",
 			1,
 			"http://hellocard.co/hellocard-app/files/",
 false,false,7857809860808235,false
@@ -40774,7 +40774,7 @@ false,false,8816726575399049,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -42380,7 +42380,7 @@ false,false,3531137882545687,false
 																				10,
 																				[
 																					23,
-																					"host"
+																					"host1"
 																				]
 																				,[
 																					2,
@@ -42540,7 +42540,7 @@ false,false,3531137882545687,false
 																		10,
 																		[
 																			23,
-																			"host"
+																			"host1"
 																		]
 																		,[
 																			2,
@@ -44198,7 +44198,7 @@ false,false,3531137882545687,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -44491,7 +44491,7 @@ false,false,3531137882545687,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -45044,7 +45044,7 @@ false,false,3531137882545687,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -45895,7 +45895,7 @@ false,false,3531137882545687,false
 								0,
 								[
 									0,
-									5
+									3
 								]
 							]
 ,							[
@@ -46055,7 +46055,7 @@ false,false,3531137882545687,false
 															]
 															,[
 																23,
-																"host"
+																"host1"
 															]
 														]
 														,[
@@ -46272,7 +46272,7 @@ false,false,3531137882545687,false
 								0,
 								[
 									0,
-									5
+									3
 								]
 							]
 ,							[
@@ -46426,7 +46426,7 @@ false,false,3531137882545687,false
 														]
 														,[
 															23,
-															"host"
+															"host1"
 														]
 													]
 													,[
@@ -46603,7 +46603,7 @@ false,false,3531137882545687,false
 								0,
 								[
 									0,
-									5
+									3
 								]
 							]
 ,							[
@@ -47742,7 +47742,7 @@ false,false,3531137882545687,false
 																]
 																,[
 																	23,
-																	"host"
+																	"host1"
 																]
 															]
 															,[
@@ -48113,7 +48113,7 @@ false,false,3531137882545687,false
 															]
 															,[
 																23,
-																"host"
+																"host1"
 															]
 														]
 														,[
@@ -49700,7 +49700,7 @@ false,false,9202522550363971,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -49927,10 +49927,10 @@ false,false,9202522550363971,false
 					]
 				]
 ,				[
-					98,
+					70,
 					cr.plugins_.iScroll.prototype.acts.add_Line,
 					null,
-					9013019145417495,
+					1894998519237108,
 					false
 					,[
 					[
@@ -49967,7 +49967,7 @@ false,false,9202522550363971,false
 											]
 											,[
 												2,
-												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 											]
 										]
 										,[
@@ -50005,7 +50005,7 @@ false,false,9202522550363971,false
 							]
 							,[
 								2,
-								"</div>"
+								"</p></div>"
 							]
 						]
 					]
@@ -50349,7 +50349,7 @@ false,false,9202522550363971,false
 													]
 													,[
 														23,
-														"host"
+														"host1"
 													]
 												]
 												,[
@@ -50406,7 +50406,7 @@ false,false,9202522550363971,false
 							]
 							,[
 								2,
-								"</div>"
+								"</p></div>"
 							]
 						]
 					]
@@ -50746,7 +50746,7 @@ false,false,9202522550363971,false
 													]
 													,[
 														23,
-														"host"
+														"host1"
 													]
 												]
 												,[
@@ -50794,7 +50794,7 @@ false,false,9202522550363971,false
 							]
 							,[
 								2,
-								"</div>"
+								"</p></div>"
 							]
 						]
 					]
@@ -51802,7 +51802,7 @@ false,false,9202522550363971,false
 													]
 													,[
 														23,
-														"host"
+														"host1"
 													]
 												]
 												,[
@@ -52234,7 +52234,7 @@ false,false,9202522550363971,false
 													]
 													,[
 														23,
-														"host"
+														"host1"
 													]
 												]
 												,[
@@ -52999,7 +52999,7 @@ false,false,9202522550363971,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -53297,7 +53297,7 @@ false,false,9202522550363971,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -54312,7 +54312,7 @@ false,false,7519545696782739,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -55192,7 +55192,7 @@ false,false,7519545696782739,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -55381,7 +55381,7 @@ false,false,7519545696782739,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -57420,7 +57420,7 @@ false,false,7519545696782739,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										19,
@@ -57695,7 +57695,7 @@ false,false,7519545696782739,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -58434,7 +58434,7 @@ false,false,4881753412295543,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -58595,7 +58595,7 @@ false,false,4881753412295543,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -59024,7 +59024,7 @@ false,false,4881753412295543,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -59144,7 +59144,7 @@ false,false,4881753412295543,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -59346,7 +59346,7 @@ false,false,4881753412295543,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -60859,7 +60859,7 @@ false,false,4881753412295543,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -61054,7 +61054,7 @@ false,false,4881753412295543,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -61542,7 +61542,7 @@ false,false,4881753412295543,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -61857,7 +61857,7 @@ false,false,4881753412295543,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -62382,7 +62382,7 @@ false,false,4881753412295543,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -62459,7 +62459,7 @@ false,false,4881753412295543,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -62526,7 +62526,7 @@ false,false,4881753412295543,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -62846,7 +62846,7 @@ false,false,4881753412295543,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									19,
@@ -62951,7 +62951,7 @@ false,false,4881753412295543,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -63548,7 +63548,7 @@ false,false,4881753412295543,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -63668,7 +63668,7 @@ false,false,4881753412295543,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -65797,7 +65797,7 @@ false,false,858584354635174,false
 																10,
 																[
 																	23,
-																	"host"
+																	"host1"
 																]
 																,[
 																	2,
@@ -66245,7 +66245,7 @@ false,false,858584354635174,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -66301,7 +66301,7 @@ false,false,858584354635174,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -66439,7 +66439,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -66473,7 +66473,7 @@ false,false,858584354635174,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -67304,7 +67304,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -67372,7 +67372,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -67566,7 +67566,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								19,
@@ -69016,7 +69016,7 @@ false,false,858584354635174,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -69210,7 +69210,7 @@ false,false,858584354635174,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -70242,7 +70242,7 @@ false,false,858584354635174,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -70391,7 +70391,7 @@ false,false,858584354635174,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -70540,7 +70540,7 @@ false,false,858584354635174,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -70687,7 +70687,7 @@ false,false,858584354635174,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -71046,7 +71046,7 @@ false,false,858584354635174,false
 									10,
 									[
 										23,
-										"host"
+										"host1"
 									]
 									,[
 										2,
@@ -71439,7 +71439,7 @@ false,false,858584354635174,false
 											10,
 											[
 												23,
-												"host"
+												"host1"
 											]
 											,[
 												2,
@@ -71600,7 +71600,7 @@ false,false,858584354635174,false
 												10,
 												[
 													23,
-													"host"
+													"host1"
 												]
 												,[
 													2,
@@ -75229,7 +75229,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -76282,7 +76282,7 @@ false,false,858584354635174,false
 							10,
 							[
 								23,
-								"host"
+								"host1"
 							]
 							,[
 								2,
@@ -76830,7 +76830,7 @@ false,false,858584354635174,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -77765,7 +77765,7 @@ false,false,858584354635174,false
 								10,
 								[
 									23,
-									"host"
+									"host1"
 								]
 								,[
 									2,
@@ -79960,7 +79960,7 @@ false,false,858584354635174,false
 										10,
 										[
 											23,
-											"host"
+											"host1"
 										]
 										,[
 											2,
@@ -80086,7 +80086,7 @@ false,false,858584354635174,false
 	0,
 	1,
 	295,
-	true,
+	false,
 	true,
 	2,
 	false,
