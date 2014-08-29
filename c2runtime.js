@@ -34772,7 +34772,7 @@ cr.getProjectModel = function() { return [
 					0,
 					"#fcfcfc",
 					0,
-					1
+					0
 				]
 			]
 			],
