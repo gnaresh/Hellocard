@@ -18204,6 +18204,208 @@ cr.plugins_.Keyboard = function(runtime)
 ;
 ;
 /*
+cr.plugins_.Phonegap = function(runtime)
+{
+	this.runtime = runtime;
+	Type
+		onCreate
+	Instance
+		onCreate
+		draw
+		drawGL
+	cnds
+	acts
+	exps
+};
+*/
+cr.plugins_.Phonegap = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.Phonegap.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+/*
+		var newScriptTag=document.createElement('script');
+		newScriptTag.setAttribute("type","text/javascript");
+		newScriptTag.setAttribute("src", "mylib.js");
+		document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+		var scripts=document.getElementsByTagName("script");
+		var exist=false;
+		for(var i=0;i<scripts.length;i++){
+			if(scripts[i].src.indexOf("cordova.js")!=-1||scripts[i].src.indexOf("phonegap.js")!=-1){
+				exist=true;
+				break;
+			}
+		}
+		if(!exist){
+			var newScriptTag=document.createElement("script");
+			newScriptTag.setAttribute("type","text/javascript");
+			newScriptTag.setAttribute("src", "cordova.js");
+			document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+		}
+*/
+		if(this.runtime.isBlackberry10 || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81){
+			var scripts=document.getElementsByTagName("script");
+			var exist=false;
+			for(var i=0;i<scripts.length;i++){
+				if(scripts[i].src.indexOf("cordova.js")!=-1||scripts[i].src.indexOf("phonegap.js")!=-1){
+					exist=true;
+					break;
+				}
+			}
+			if(!exist){
+				var newScriptTag=document.createElement("script");
+				newScriptTag.setAttribute("type","text/javascript");
+				newScriptTag.setAttribute("src", "cordova.js");
+				document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+			}
+		}
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+/*
+		var self=this;
+		window.addEventListener("resize", function () {//cranberrygame
+			self.runtime.trigger(cr.plugins_.Phonegap.prototype.cnds.TriggerCondition, self);
+		});
+*/
+		this.menu="";
+		var self=this;
+		document.addEventListener("backbutton",
+		function() {
+			self.runtime.trigger(pluginProto.cnds.OnBack, self);
+		}, false);
+		document.addEventListener("menubutton",
+		function() {
+			self.runtime.trigger(pluginProto.cnds.OnMenu, self);
+		}, false);
+		document.addEventListener("onMenuSelected",
+		function(info) {
+			self.menu=info["menu"];
+			self.runtime.trigger(pluginProto.cnds.OnMenuSelected, self);
+		}, false);
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+/*
+	instanceProto.at = function (x)
+	{
+		return this.arr[x];
+	};
+	instanceProto.set = function (x, val)
+	{
+		this.arr[x] = val;
+	};
+*/
+	function Cnds() {};
+/*
+	Cnds.prototype.MyCondition = function (myparam)
+	{
+		return myparam >= 0;
+	};
+	Cnds.prototype.TriggerCondition = function ()
+	{
+		return true;
+	};
+*/
+	Cnds.prototype.OnBack = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnMenu = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnMenuSelected = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.SelectedMenuIs = function (_menu)
+	{
+		return this.menu == _menu;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+/*
+	Acts.prototype.MyAction = function (myparam)
+	{
+		alert(myparam);
+	};
+	Acts.prototype.TriggerAction = function ()
+	{
+		var self=this;
+		self.runtime.trigger(cr.plugins_.Phonegap.prototype.cnds.TriggerCondition, self);
+	};
+*/
+	Acts.prototype.Close = function (myparam)
+	{
+		navigator["app"]["exitApp"]();
+	};
+	Acts.prototype.CloseIfTwice = function (myparam)
+	{
+		if(this.runtime.isAndroid || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81){
+			window["exitappiftwice"]["exitAppIfTwice"]();
+		}
+		else{
+			navigator["app"]["exitApp"]();
+		}
+	};
+	Acts.prototype.SetMenus = function (menus)
+	{
+		window["optionsmenu"]["setMenus"](
+		function(info) {
+		},
+		function(error) {
+		}, menus);
+	};
+	Acts.prototype.ShowMenus = function ()
+	{
+		window["optionsmenu"]["showMenus"](
+		function(info) {
+		},
+		function(error) {
+		});
+	};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+/*
+	Exps.prototype.MyExpression = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	{
+		ret.set_int(1337);				// return our value
+	};
+	Exps.prototype.Text = function (ret, param) //cranberrygame
+	{
+		ret.set_string("Hello");		// for ef_return_string
+	};
+*/
+	Exps.prototype.Menu = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	{
+		ret.set_string(this.menu);		// for ef_return_string
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
+/*
 cr.plugins_.PhonegapDialog = function(runtime)
 {
 	this.runtime = runtime;
@@ -25243,6 +25445,51 @@ cr.behaviors.Bullet = function(runtime)
 }());
 ;
 ;
+cr.behaviors.Persist = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var behaviorProto = cr.behaviors.Persist.prototype;
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+	var behtypeProto = behaviorProto.Type.prototype;
+	behtypeProto.onCreate = function()
+	{
+	};
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	var behinstProto = behaviorProto.Instance.prototype;
+	behinstProto.onCreate = function()
+	{
+		this.myProperty = this.properties[0];
+	};
+	behinstProto.onDestroy = function ()
+	{
+	};
+	behinstProto.tick = function ()
+	{
+		var dt = this.runtime.getDt(this.inst);
+	};
+	function Cnds() {};
+	behaviorProto.cnds = new Cnds();
+	function Acts() {};
+	behaviorProto.acts = new Acts();
+	function Exps() {};
+	behaviorProto.exps = new Exps();
+}());
+;
+;
 cr.behaviors.Pin = function(runtime)
 {
 	this.runtime = runtime;
@@ -25810,7 +26057,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Div,
+		cr.plugins_.HTML_Img,
 		false,
 		true,
 		true,
@@ -25822,7 +26069,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Img,
+		cr.plugins_.HTML_Div,
 		false,
 		true,
 		true,
@@ -25870,6 +26117,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.PhonegapDialog,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Keyboard,
 		true,
 		false,
@@ -25894,7 +26153,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.PhonegapDialog,
+		cr.plugins_.Phonegap,
 		true,
 		false,
 		false,
@@ -25907,18 +26166,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.Text,
 		false,
 		true,
 		true,
@@ -25954,15 +26201,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.Text,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 		false
 	]
 ,	[
@@ -25975,6 +26222,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -27505,7 +27764,7 @@ cr.getProjectModel = function() { return [
 		cr.plugins_.HTML_Img,
 		false,
 		[3114204342255155],
-		1,
+		2,
 		0,
 		null,
 		null,
@@ -27514,6 +27773,11 @@ cr.getProjectModel = function() { return [
 			"InjectImage",
 			cr.behaviors.injectImage,
 			473603897634147
+		]
+,		[
+			"Persist",
+			cr.behaviors.Persist,
+			7716384750435718
 		]
 		],
 		false,
@@ -28462,6 +28726,41 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t97",
+		cr.plugins_.Phonegap,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		7472135463284918,
+		[],
+		null
+		,[]
+	]
+,	[
+		"t98",
+		cr.plugins_.iScroll,
+		false,
+		[341649720989855],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		7527073103835713,
+		[],
+		null
+	]
+,	[
+		"t99",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -28478,7 +28777,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t98",
+		"t100",
 		cr.plugins_.TextBox,
 		true,
 		[],
@@ -28495,7 +28794,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t99",
+		"t101",
 		cr.plugins_.Text,
 		true,
 		[],
@@ -28513,9 +28812,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[97,48,84,32,62,76,49,42,94,50,93,74,53,46,80]
-,		[98,21,19,18,14,12]
-,		[99,35,45,58,29,75,66,77,82,86,24,9,44,57]
+		[99,48,84,32,62,76,49,42,94,50,93,74,53,46,80]
+,		[100,21,19,18,14,12]
+,		[101,35,45,58,29,75,66,77,82,86,24,9,44,57]
 	],
 	[
 	[
@@ -30525,6 +30824,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -31249,21 +31550,6 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[320, 185, 0, 640, 160, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				42,
-				137,
-				[
-				],
-				[
-				],
-				[
-					1,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
 				[177, 141, 0, 506, 78, 0, 0, 1, 0, 0, 0, 0, []],
 				44,
 				145,
@@ -31323,6 +31609,44 @@ cr.getProjectModel = function() { return [
 					1,
 					0,
 					0
+				]
+			]
+,			[
+				[0, 101, 0, 640, 874, 0, 0, 1, 0, 0, 0, 0, []],
+				98,
+				294,
+				[
+					[""]
+				],
+				[
+				],
+				[
+					1,
+					0,
+					1,
+					1,
+					320,
+					480,
+					0,
+					0,
+					45,
+					1,
+					"rgba(0,0,0,0.4)",
+					100,
+					0,
+					0,
+					0,
+					0,
+					1,
+					"",
+					45,
+					1,
+					"",
+					48,
+					0,
+					"#fcfcfc",
+					0,
+					1
 				]
 			]
 			],
@@ -31537,76 +31861,6 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[313, 188, 0, 63.77929306030273, 68.12788391113281, 0, 0, 1, 0.5, 0.5021276473999023, 0, 0, []],
-				54,
-				120,
-				[
-				],
-				[
-				],
-				[
-					1,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
-				[546, 180, 0, 99, 49, 0, 0, 1, 0.5020242929458618, 0.5121951103210449, 0, 0, []],
-				32,
-				122,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
-				[548, 179, 0, 244, 79, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				9,
-				123,
-				[
-					["buttontext"]
-				],
-				[
-				[
-				]
-				],
-				[
-					"view",
-					0,
-					"20pt Open Sans",
-					"rgb(255,255,255)",
-					1,
-					1,
-					1,
-					0,
-					0
-				]
-			]
-,			[
-				[31, 119, 0, 120, 120, 0, 0, 1, 0, 0, 0, 0, []],
-				61,
-				141,
-				[
-					[""]
-				],
-				[
-				[
-				]
-				],
-				[
-					0,
-					"",
-					"border-radius:100%;border: 4px solid #ffffff;"
-				]
-			]
-,			[
 				[80, 1105, 0, 250, 75, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				77,
 				115,
@@ -31746,6 +32000,111 @@ cr.getProjectModel = function() { return [
 					1,
 					0,
 					0
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"Layer 2",
+			2,
+			462784941144836,
+			false,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[313, 188, 0, 63.77929306030273, 68.12788391113281, 0, 0, 1, 0.5, 0.5021276473999023, 0, 0, []],
+				54,
+				120,
+				[
+				],
+				[
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[548, 179, 0, 244, 79, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				9,
+				123,
+				[
+					["buttontext"]
+				],
+				[
+				[
+				]
+				],
+				[
+					"view",
+					0,
+					"20pt Open Sans",
+					"rgb(255,255,255)",
+					1,
+					1,
+					1,
+					0,
+					0
+				]
+			]
+,			[
+				[31, 119, 0, 120, 120, 0, 0, 1, 0, 0, 0, 0, []],
+				61,
+				141,
+				[
+					[""]
+				],
+				[
+				[
+				],
+				[
+				]
+				],
+				[
+					0,
+					"",
+					"border-radius:100%;border: 4px solid #ffffff;"
+				]
+			]
+,			[
+				[320, 185, 0, 640, 160, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				42,
+				137,
+				[
+				],
+				[
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[546, 180, 0, 99, 49, 0, 0, 1, 0.5020242929458618, 0.5121951103210449, 0, 0, []],
+				32,
+				122,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
 				]
 			]
 			],
@@ -32695,6 +33054,8 @@ cr.getProjectModel = function() { return [
 					[""]
 				],
 				[
+				[
+				],
 				[
 				]
 				],
@@ -33752,6 +34113,8 @@ cr.getProjectModel = function() { return [
 					[""]
 				],
 				[
+				[
+				],
 				[
 				]
 				],
@@ -37620,6 +37983,41 @@ cr.getProjectModel = function() { return [
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			9922980222735979,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				6795632257496227,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				3280349727850052,
+				false
+				,[
+				[
+					6,
+					"mainLogin"
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -37629,14 +38027,14 @@ cr.getProjectModel = function() { return [
 			1,
 			"host",
 			1,
-			"http://hellocard.co/hellocard-app/files/",
+			"http://192.168.1.12/hellocard-app/files/",
 false,false,6654023529906868,false
 		]
 ,		[
 			1,
 			"host2",
 			1,
-			"http://localhost/hellocard-app/files/",
+			"http://hellocard.co/hellocard-app/files/",
 false,false,7857809860808235,false
 		]
 ,		[
@@ -37749,74 +38147,7 @@ false,false,8816726575399049,false
 				]
 			]
 ,			[
-				5,
-				cr.plugins_.AJAX.prototype.acts.Post,
-				null,
-				9152121978100693,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"getNotificationsNum"
-					]
-				]
-,				[
-					1,
-					[
-						10,
-						[
-							10,
-							[
-								10,
-								[
-									23,
-									"host"
-								]
-								,[
-									2,
-									"notify.php?myhcid=&savehcid="
-								]
-							]
-							,[
-								20,
-								0,
-								cr.plugins_.WebStorage.prototype.exps.LocalValue,
-								true,
-								null
-								,[
-[
-									2,
-									"hcid"
-								]
-								]
-							]
-						]
-						,[
-							2,
-							"&type=&message=&check=yes"
-						]
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						""
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"POST"
-					]
-				]
-				]
-			]
-,			[
-				99,
+				101,
 				cr.plugins_.Text.prototype.acts.SetWebFont,
 				null,
 				541640155118095,
@@ -38315,14 +38646,14 @@ false,false,8816726575399049,false
 				,[
 				[
 					4,
-					97
+					99
 				]
 				]
 			]
 			],
 			[
 			[
-				97,
+				99,
 				cr.plugins_.Sprite.prototype.acts.SetOpacity,
 				null,
 				1526638455769325,
@@ -38360,7 +38691,7 @@ false,false,8816726575399049,false
 			],
 			[
 			[
-				97,
+				99,
 				cr.plugins_.Sprite.prototype.acts.SetOpacity,
 				null,
 				2364438590112211,
@@ -38998,7 +39329,7 @@ false,false,8816726575399049,false
 				]
 			]
 ,			[
-				98,
+				100,
 				cr.plugins_.TextBox.prototype.acts.SetX,
 				null,
 				1254247266914922,
@@ -39050,7 +39381,7 @@ false,false,8816726575399049,false
 								7,
 								[
 									20,
-									98,
+									100,
 									cr.plugins_.TextBox.prototype.exps.Width,
 									false,
 									null
@@ -40395,6 +40726,104 @@ false,false,8816726575399049,false
 			null,
 			false,
 			null,
+			8140382279898206,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.Every,
+				null,
+				0,
+				false,
+				false,
+				false,
+				1050743942994396,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						2
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				5,
+				cr.plugins_.AJAX.prototype.acts.Post,
+				null,
+				4976878316774569,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"getNotificationsNum"
+					]
+				]
+,				[
+					1,
+					[
+						10,
+						[
+							10,
+							[
+								10,
+								[
+									23,
+									"host"
+								]
+								,[
+									2,
+									"notify.php?myhcid=&savehcid="
+								]
+							]
+							,[
+								20,
+								0,
+								cr.plugins_.WebStorage.prototype.exps.LocalValue,
+								true,
+								null
+								,[
+[
+									2,
+									"hcid"
+								]
+								]
+							]
+						]
+						,[
+							2,
+							"&type=&message=&check=yes"
+						]
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						""
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						"POST"
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			1110347390078175,
 			[
 			[
@@ -40598,6 +41027,120 @@ false,false,8816726575399049,false
 								]
 							]
 						]
+					]
+					]
+				]
+,				[
+					96,
+					cr.plugins_.PhonegapLocalNotification.prototype.acts.SendLocalNotification,
+					null,
+					1538421538216045,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"HelloCard"
+						]
+					]
+,					[
+						1,
+						[
+							10,
+							[
+								10,
+								[
+									2,
+									"you have "
+								]
+								,[
+									5,
+									[
+										19,
+										cr.system_object.prototype.exps["int"]
+										,[
+[
+											7,
+											[
+												5,
+												[
+													19,
+													cr.system_object.prototype.exps.tokencount
+													,[
+[
+														20,
+														5,
+														cr.plugins_.AJAX.prototype.exps.LastData,
+														true,
+														null
+													]
+,[
+														2,
+														"|"
+													]
+													]
+												]
+												,[
+													0,
+													1
+												]
+											]
+											,[
+												0,
+												5
+											]
+										]
+										]
+									]
+									,[
+										19,
+										cr.system_object.prototype.exps["int"]
+										,[
+[
+											20,
+											0,
+											cr.plugins_.WebStorage.prototype.exps.LocalValue,
+											true,
+											null
+											,[
+[
+												2,
+												"numOfNotifications"
+											]
+											]
+										]
+										]
+									]
+								]
+							]
+							,[
+								2,
+								" new notification"
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						3,
+						0
 					]
 					]
 				]
@@ -42956,6 +43499,41 @@ false,false,3531137882545687,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7812200845466218,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				6610727907043231,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				2170511445788127,
+				false
+				,[
+				[
+					6,
+					"mainLogin"
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -45101,7 +45679,7 @@ false,false,3531137882545687,false
 														10,
 														[
 															2,
-															"<div style=\"margin-top:-12px;\"><img src=\""
+															"<div style=\"margin-top:-10px;\"><img src=\""
 														]
 														,[
 															19,
@@ -45145,7 +45723,7 @@ false,false,3531137882545687,false
 													]
 													,[
 														2,
-														"\" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+														"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 													]
 												]
 												,[
@@ -45183,7 +45761,7 @@ false,false,3531137882545687,false
 											]
 											,[
 												2,
-												"</h4>"
+												"</p><p style=\"font-size:10px;padding-top:5px\">"
 											]
 										]
 										,[
@@ -45228,7 +45806,7 @@ false,false,3531137882545687,false
 									]
 									,[
 										2,
-										"</div>"
+										"</p></div>"
 									]
 								]
 							]
@@ -45331,7 +45909,7 @@ false,false,3531137882545687,false
 								7,
 								[
 									0,
-									50
+									58
 								]
 							]
 ,							[
@@ -45473,7 +46051,7 @@ false,false,3531137882545687,false
 															10,
 															[
 																2,
-																"<div style=\"margin-top:-12px;\"><img src=\""
+																"<div style=\"margin-top:-10px;\"><img src=\""
 															]
 															,[
 																23,
@@ -45522,7 +46100,7 @@ false,false,3531137882545687,false
 													]
 													,[
 														2,
-														" \" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+														" \" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 													]
 												]
 												,[
@@ -45560,7 +46138,7 @@ false,false,3531137882545687,false
 											]
 											,[
 												2,
-												"</h4>"
+												"</p><p style=\"font-size:10px;padding-top:5px\">"
 											]
 										]
 										,[
@@ -45605,7 +46183,7 @@ false,false,3531137882545687,false
 									]
 									,[
 										2,
-										"</div>"
+										"</p></div>"
 									]
 								]
 							]
@@ -45708,7 +46286,7 @@ false,false,3531137882545687,false
 								7,
 								[
 									0,
-									50
+									58
 								]
 							]
 ,							[
@@ -45844,7 +46422,7 @@ false,false,3531137882545687,false
 														10,
 														[
 															2,
-															"<div style=\"margin-top:-12px;\"><img src=\""
+															"<div style=\"margin-top:-10px;\"><img src=\""
 														]
 														,[
 															23,
@@ -45853,7 +46431,7 @@ false,false,3531137882545687,false
 													]
 													,[
 														2,
-														"phpimg/default.png \" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+														"phpimg/default.png \" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 													]
 												]
 												,[
@@ -45891,7 +46469,7 @@ false,false,3531137882545687,false
 											]
 											,[
 												2,
-												"</h4>"
+												"</p><p style=\"font-size:10px;padding-top:5px\">"
 											]
 										]
 										,[
@@ -45936,7 +46514,7 @@ false,false,3531137882545687,false
 									]
 									,[
 										2,
-										"</div>"
+										"</p></div>"
 									]
 								]
 							]
@@ -46039,7 +46617,7 @@ false,false,3531137882545687,false
 								7,
 								[
 									0,
-									50
+									58
 								]
 							]
 ,							[
@@ -46081,6 +46659,78 @@ false,false,3531137882545687,false
 						],
 						[
 						[
+							70,
+							cr.plugins_.iScroll.prototype.acts.modify_fonts,
+							null,
+							5293803068223302,
+							false
+							,[
+							[
+								7,
+								[
+									19,
+									cr.system_object.prototype.exps.tokenat
+									,[
+[
+										23,
+										"SavedCards"
+									]
+,[
+										4,
+										[
+											6,
+											[
+												5,
+												[
+													19,
+													cr.system_object.prototype.exps.loopindex
+												]
+												,[
+													0,
+													1
+												]
+											]
+											,[
+												0,
+												5
+											]
+										]
+										,[
+											0,
+											3
+										]
+									]
+,[
+										2,
+										"|"
+									]
+									]
+								]
+							]
+,							[
+								7,
+								[
+									2,
+									"OpenSansLight"
+								]
+							]
+,							[
+								7,
+								[
+									2,
+									"#5a5a5a"
+								]
+							]
+,							[
+								0,
+								[
+									0,
+									12
+								]
+							]
+							]
+						]
+,						[
 							70,
 							cr.plugins_.iScroll.prototype.acts.modify_borders,
 							null,
@@ -46139,8 +46789,8 @@ false,false,3531137882545687,false
 ,							[
 								0,
 								[
-									0,
-									1
+									1,
+									0.2
 								]
 							]
 ,							[
@@ -46162,78 +46812,6 @@ false,false,3531137882545687,false
 								[
 									2,
 									"#DBDBDB"
-								]
-							]
-							]
-						]
-,						[
-							70,
-							cr.plugins_.iScroll.prototype.acts.modify_fonts,
-							null,
-							5293803068223302,
-							false
-							,[
-							[
-								7,
-								[
-									19,
-									cr.system_object.prototype.exps.tokenat
-									,[
-[
-										23,
-										"SavedCards"
-									]
-,[
-										4,
-										[
-											6,
-											[
-												5,
-												[
-													19,
-													cr.system_object.prototype.exps.loopindex
-												]
-												,[
-													0,
-													1
-												]
-											]
-											,[
-												0,
-												5
-											]
-										]
-										,[
-											0,
-											3
-										]
-									]
-,[
-										2,
-										"|"
-									]
-									]
-								]
-							]
-,							[
-								7,
-								[
-									2,
-									"helvetica"
-								]
-							]
-,							[
-								7,
-								[
-									2,
-									"#5a5a5a"
-								]
-							]
-,							[
-								0,
-								[
-									0,
-									12
 								]
 							]
 							]
@@ -46788,7 +47366,7 @@ false,false,3531137882545687,false
 															10,
 															[
 																2,
-																"<div style=\"margin-top:-12px;\"><img src=\""
+																"<div style=\"margin-top:-10px;\"><img src=\""
 															]
 															,[
 																19,
@@ -46832,7 +47410,7 @@ false,false,3531137882545687,false
 														]
 														,[
 															2,
-															"\" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+															"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 														]
 													]
 													,[
@@ -46870,7 +47448,7 @@ false,false,3531137882545687,false
 												]
 												,[
 													2,
-													"</h4>"
+													"</p><p style=\"font-size:10px;padding-top:5px\">"
 												]
 											]
 											,[
@@ -46915,7 +47493,7 @@ false,false,3531137882545687,false
 										]
 										,[
 											2,
-											"</div>"
+											"</p></div>"
 										]
 									]
 								]
@@ -47004,7 +47582,7 @@ false,false,3531137882545687,false
 									0,
 									[
 										0,
-										5
+										3
 									]
 								]
 ,								[
@@ -47018,14 +47596,14 @@ false,false,3531137882545687,false
 									7,
 									[
 										0,
-										50
+										58
 									]
 								]
 ,								[
 									7,
 									[
-										2,
-										"auto"
+										0,
+										2
 									]
 								]
 ,								[
@@ -47160,7 +47738,7 @@ false,false,3531137882545687,false
 																10,
 																[
 																	2,
-																	"<div style=\"margin-top:-12px;\"><img src=\""
+																	"<div style=\"margin-top:-10px;\"><img src=\""
 																]
 																,[
 																	23,
@@ -47209,7 +47787,7 @@ false,false,3531137882545687,false
 														]
 														,[
 															2,
-															" \" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+															" \" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 														]
 													]
 													,[
@@ -47247,7 +47825,7 @@ false,false,3531137882545687,false
 												]
 												,[
 													2,
-													"</h4>"
+													"</p><p style=\"font-size:10px;padding-top:5px\">"
 												]
 											]
 											,[
@@ -47292,7 +47870,7 @@ false,false,3531137882545687,false
 										]
 										,[
 											2,
-											"</div>"
+											"</p></div>"
 										]
 									]
 								]
@@ -47381,7 +47959,7 @@ false,false,3531137882545687,false
 									0,
 									[
 										0,
-										5
+										3
 									]
 								]
 ,								[
@@ -47395,14 +47973,14 @@ false,false,3531137882545687,false
 									7,
 									[
 										0,
-										50
+										58
 									]
 								]
 ,								[
 									7,
 									[
-										2,
-										"auto"
+										0,
+										2
 									]
 								]
 ,								[
@@ -47531,7 +48109,7 @@ false,false,3531137882545687,false
 															10,
 															[
 																2,
-																"<div style=\"margin-top:-12px;\"><img src=\""
+																"<div style=\"margin-top:-10px;\"><img src=\""
 															]
 															,[
 																23,
@@ -47540,7 +48118,7 @@ false,false,3531137882545687,false
 														]
 														,[
 															2,
-															"phpimg/default.png \" width=\"50px\" height=\"50px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/><h4>"
+															"phpimg/default.png \" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"font-size:15px;padding-top:10px\">"
 														]
 													]
 													,[
@@ -47578,7 +48156,7 @@ false,false,3531137882545687,false
 												]
 												,[
 													2,
-													"</h4>"
+													"</p><p style=\"font-size:10px;padding-top:5px\">"
 												]
 											]
 											,[
@@ -47623,7 +48201,7 @@ false,false,3531137882545687,false
 										]
 										,[
 											2,
-											"</div>"
+											"</p></div>"
 										]
 									]
 								]
@@ -47712,7 +48290,7 @@ false,false,3531137882545687,false
 									0,
 									[
 										0,
-										5
+										3
 									]
 								]
 ,								[
@@ -47726,14 +48304,14 @@ false,false,3531137882545687,false
 									7,
 									[
 										0,
-										50
+										58
 									]
 								]
 ,								[
 									7,
 									[
-										2,
-										"auto"
+										0,
+										2
 									]
 								]
 ,								[
@@ -47820,7 +48398,7 @@ false,false,3531137882545687,false
 									7,
 									[
 										2,
-										"helvetica"
+										"OpenSansLight"
 									]
 								]
 ,								[
@@ -47898,8 +48476,8 @@ false,false,3531137882545687,false
 ,								[
 									0,
 									[
-										0,
-										1
+										1,
+										0.2
 									]
 								]
 ,								[
@@ -48077,44 +48655,6 @@ false,false,3531137882545687,false
 				[
 					6,
 					"HelloCard"
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			378421056254577,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.OnLayoutEnd,
-				null,
-				1,
-				false,
-				false,
-				false,
-				9248493913084716,
-				false
-			]
-			],
-			[
-			[
-				-1,
-				cr.system_object.prototype.acts.SaveState,
-				null,
-				5847914393105695,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"savedcardsOffline"
-					]
 				]
 				]
 			]
@@ -49057,12 +49597,54 @@ false,false,3531137882545687,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			4985004017144295,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7777923993606107,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				2457749753995791,
+				false
+				,[
+				[
+					6,
+					"Search"
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
 		"MyCards",
 		[
 		[
+			1,
+			"imageReload",
+			0,
+			1,
+false,false,7027564272570314,false
+		]
+,		[
 			1,
 			"pos",
 			0,
@@ -49162,83 +49744,6 @@ false,false,9202522550363971,false
 				]
 			]
 ,			[
-				44,
-				cr.plugins_.Text.prototype.acts.SetText,
-				null,
-				9347341407370683,
-				false
-				,[
-				[
-					7,
-					[
-						20,
-						0,
-						cr.plugins_.WebStorage.prototype.exps.LocalValue,
-						true,
-						null
-						,[
-[
-							2,
-							"fullname"
-						]
-						]
-					]
-				]
-				]
-			]
-,			[
-				44,
-				cr.plugins_.Text.prototype.acts.SetVisible,
-				null,
-				4349344724769724,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-,			[
-				45,
-				cr.plugins_.Text.prototype.acts.SetVisible,
-				null,
-				8833477016550403,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-,			[
-				42,
-				cr.plugins_.Sprite.prototype.acts.SetVisible,
-				null,
-				2242886643386782,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-,			[
-				54,
-				cr.plugins_.Sprite.prototype.acts.SetVisible,
-				null,
-				8868726200758357,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-,			[
 				-1,
 				cr.system_object.prototype.acts.SetVar,
 				null,
@@ -49254,31 +49759,6 @@ false,false,9202522550363971,false
 					[
 						0,
 						0
-					]
-				]
-				]
-			]
-,			[
-				45,
-				cr.plugins_.Text.prototype.acts.SetText,
-				null,
-				7208807594644006,
-				false
-				,[
-				[
-					7,
-					[
-						20,
-						0,
-						cr.plugins_.WebStorage.prototype.exps.LocalValue,
-						true,
-						null
-						,[
-[
-							2,
-							"designation"
-						]
-						]
 					]
 				]
 				]
@@ -49403,17 +49883,134 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					6142196752168312,
+					0,
+					false,
+					false,
+					false,
+					3079335835972004,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					54,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					8868726200758357,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					9013019145417495,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													2,
+													"<div style=\"margin-top:-10px;\"><img src=\""
+												]
+												,[
+													20,
+													0,
+													cr.plugins_.WebStorage.prototype.exps.LocalValue,
+													true,
+													null
+													,[
+[
+														2,
+														"propic"
+													]
+													]
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											20,
+											0,
+											cr.plugins_.WebStorage.prototype.exps.LocalValue,
+											true,
+											null
+											,[
+[
+												2,
+												"fullname"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px\">"
+									]
+								]
+								,[
+									20,
+									0,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										2,
+										"designation"
+									]
+									]
+								]
+							]
+							,[
+								2,
+								"</div>"
+							]
+						]
+					]
+,					[
+						7,
 						[
 							20,
 							0,
@@ -49423,9 +50020,200 @@ false,false,9202522550363971,false
 							,[
 [
 								2,
-								"propic"
+								"hcid"
 							]
 							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					2304131826689899,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
+				]
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					3599853670324123,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -49489,36 +50277,344 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					5834002219532052,
+					0,
+					false,
+					false,
+					false,
+					2141931416232618,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					54,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					9927050324215213,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					5581032204133679,
+					false
+					,[
+					[
+						7,
 						[
 							10,
 							[
-								23,
-								"host"
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													10,
+													[
+														2,
+														"<div style=\"margin-top:-10px;\"><img src=\""
+													]
+													,[
+														23,
+														"host"
+													]
+												]
+												,[
+													20,
+													0,
+													cr.plugins_.WebStorage.prototype.exps.LocalValue,
+													true,
+													null
+													,[
+[
+														2,
+														"propic"
+													]
+													]
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											20,
+											0,
+											cr.plugins_.WebStorage.prototype.exps.LocalValue,
+											true,
+											null
+											,[
+[
+												2,
+												"fullname"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px\">"
+									]
+								]
+								,[
+									20,
+									0,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										2,
+										"designation"
+									]
+									]
+								]
 							]
 							,[
-								20,
-								0,
-								cr.plugins_.WebStorage.prototype.exps.LocalValue,
-								true,
-								null
-								,[
-[
-									2,
-									"propic"
-								]
-								]
+								2,
+								"</div>"
 							]
+						]
+					]
+,					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					7310682653186672,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
+				]
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					5620247404178611,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -49578,27 +50674,335 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					6673607728342949,
+					0,
+					false,
+					false,
+					false,
+					6284946470386404,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					54,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					637518668314424,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					5914232021539842,
+					false
+					,[
+					[
+						7,
 						[
 							10,
 							[
-								23,
-								"host"
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													10,
+													[
+														2,
+														"<div style=\"margin-top:-10px;\"><img src=\""
+													]
+													,[
+														23,
+														"host"
+													]
+												]
+												,[
+													2,
+													"phpimg/default.png"
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											20,
+											0,
+											cr.plugins_.WebStorage.prototype.exps.LocalValue,
+											true,
+											null
+											,[
+[
+												2,
+												"fullname"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px;\">"
+									]
+								]
+								,[
+									20,
+									0,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										2,
+										"designation"
+									]
+									]
+								]
 							]
 							,[
 								2,
-								"phpimg/default.png"
+								"</div>"
 							]
+						]
+					]
+,					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					9168917642633009,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
+				]
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					5287016846988261,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							0,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"hcid"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -49826,6 +51230,31 @@ false,false,9202522550363971,false
 				]
 				]
 			]
+,			[
+				98,
+				cr.plugins_.iScroll.prototype.acts.remove_Line,
+				null,
+				4991691632976738,
+				false
+				,[
+				[
+					7,
+					[
+						20,
+						0,
+						cr.plugins_.WebStorage.prototype.exps.LocalValue,
+						true,
+						null
+						,[
+[
+							2,
+							"hcid"
+						]
+						]
+					]
+				]
+				]
+			]
 			]
 			,[
 			[
@@ -49885,17 +51314,145 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					4979300483621893,
+					0,
+					false,
+					false,
+					false,
+					4310024001970879,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					1961744718707935,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													2,
+													"<div style=\"margin-top:-10px;\"><img src=\""
+												]
+												,[
+													19,
+													cr.system_object.prototype.exps.tokenat
+													,[
+[
+														20,
+														5,
+														cr.plugins_.AJAX.prototype.exps.LastData,
+														true,
+														null
+													]
+,[
+														0,
+														6
+													]
+,[
+														2,
+														"|"
+													]
+													]
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											19,
+											cr.system_object.prototype.exps.tokenat
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												0,
+												1
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px;\">"
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps.tokenat
+									,[
+[
+										20,
+										5,
+										cr.plugins_.AJAX.prototype.exps.LastData,
+										true,
+										null
+									]
+,[
+										0,
+										2
+									]
+,[
+										2,
+										"|"
+									]
+									]
+								]
+							]
+							,[
+								2,
+								"</div>"
+							]
+						]
+					]
+,					[
+						7,
 						[
 							19,
 							cr.system_object.prototype.exps.tokenat
@@ -49909,13 +51466,220 @@ false,false,9202522550363971,false
 							]
 ,[
 								0,
-								6
+								0
 							]
 ,[
 								2,
 								"|"
 							]
 							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					4392775403796723,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
+				]
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					8781323066199077,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -49979,44 +51743,379 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					1548468008478138,
+					0,
+					false,
+					false,
+					false,
+					3366212360546663,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					7520738698940729,
+					false
+					,[
+					[
+						7,
 						[
 							10,
 							[
-								23,
-								"host"
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													10,
+													[
+														2,
+														"<div style=\"margin-top:-10px;\"><img src=\""
+													]
+													,[
+														23,
+														"host"
+													]
+												]
+												,[
+													19,
+													cr.system_object.prototype.exps.tokenat
+													,[
+[
+														20,
+														5,
+														cr.plugins_.AJAX.prototype.exps.LastData,
+														true,
+														null
+													]
+,[
+														0,
+														6
+													]
+,[
+														2,
+														"|"
+													]
+													]
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											19,
+											cr.system_object.prototype.exps.tokenat
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												0,
+												1
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px;\">"
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps.tokenat
+									,[
+[
+										20,
+										5,
+										cr.plugins_.AJAX.prototype.exps.LastData,
+										true,
+										null
+									]
+,[
+										0,
+										2
+									]
+,[
+										2,
+										"|"
+									]
+									]
+								]
 							]
 							,[
-								19,
-								cr.system_object.prototype.exps.tokenat
-								,[
-[
-									20,
-									5,
-									cr.plugins_.AJAX.prototype.exps.LastData,
-									true,
-									null
-								]
-,[
-									0,
-									6
-								]
-,[
-									2,
-									"|"
-								]
-								]
+								2,
+								"</div>"
 							]
+						]
+					]
+,					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					3791498508349847,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
+				]
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					5645268973573701,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -50076,176 +52175,365 @@ false,false,9202522550363971,false
 					]
 					]
 				]
-				],
-				[
-				[
-					61,
-					cr.plugins_.HTML_Img.prototype.acts.SetURL,
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					5459979862823403,
+					0,
+					false,
+					false,
+					false,
+					6898502594719892,
 					false
 					,[
 					[
-						1,
+						11,
+						"imageReload"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					98,
+					cr.plugins_.iScroll.prototype.acts.add_Line,
+					null,
+					7399763161048579,
+					false
+					,[
+					[
+						7,
 						[
 							10,
 							[
-								23,
-								"host"
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												10,
+												[
+													10,
+													[
+														2,
+														"<div style=\"margin-top:-10px;\"><img src=\""
+													]
+													,[
+														23,
+														"host"
+													]
+												]
+												,[
+													2,
+													"phpimg/default.png"
+												]
+											]
+											,[
+												2,
+												"\" width=\"55px\" height=\"55px\" style=\"float:left;margin-right:15px;border-radius:100px;border: 4px solid #ffffff;\"/></div><div><p style=\"padding-top:10px; font-size:15px\">"
+											]
+										]
+										,[
+											19,
+											cr.system_object.prototype.exps.tokenat
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												0,
+												1
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+									]
+									,[
+										2,
+										"</p><p style=\"font-size:10px;padding-top:5px;\">"
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps.tokenat
+									,[
+[
+										20,
+										5,
+										cr.plugins_.AJAX.prototype.exps.LastData,
+										true,
+										null
+									]
+,[
+										0,
+										2
+									]
+,[
+										2,
+										"|"
+									]
+									]
+								]
 							]
 							,[
 								2,
-								"phpimg/default.png"
+								"</div>"
 							]
 						]
 					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			9471104416258848,
-			[
-			[
-				61,
-				cr.plugins_.HTML_Img.prototype.cnds.OnChange,
-				null,
-				1,
-				false,
-				false,
-				false,
-				9134634723732684,
-				false
-			]
-			],
-			[
-			[
-				54,
-				cr.plugins_.Sprite.prototype.acts.SetPos,
-				null,
-				761593340585103,
-				false
-				,[
-				[
-					0,
-					[
-						4,
+,					[
+						7,
 						[
-							20,
-							61,
-							cr.plugins_.HTML_Img.prototype.exps.X,
-							false,
-							null
-						]
-						,[
-							7,
-							[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
 								20,
-								61,
-								cr.plugins_.HTML_Img.prototype.exps.Width,
-								false,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
 								null
 							]
-							,[
+,[
 								0,
-								2
+								0
+							]
+,[
+								2,
+								"|"
+							]
 							]
 						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"#"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							0,
+							58
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"auto"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#f5f5f5"
+						]
+					]
+,					[
+						3,
+						0
+					]
 					]
 				]
 ,				[
-					0,
+					98,
+					cr.plugins_.iScroll.prototype.acts.modify_borders,
+					null,
+					2273786080006853,
+					false
+					,[
 					[
-						4,
+						7,
 						[
-							20,
-							61,
-							cr.plugins_.HTML_Img.prototype.exps.Y,
-							false,
-							null
-						]
-						,[
-							7,
-							[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
 								20,
-								61,
-								cr.plugins_.HTML_Img.prototype.exps.Height,
-								false,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
 								null
 							]
-							,[
+,[
 								0,
-								2
+								0
+							]
+,[
+								2,
+								"|"
+							]
 							]
 						]
 					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							1,
+							0.2
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#DBDBDB"
+						]
+					]
+					]
 				]
-				]
-			]
-,			[
-				61,
-				cr.plugins_.HTML_Img.prototype.acts.SetVisible,
-				null,
-				5323127106193345,
-				false
-				,[
-				[
-					3,
-					0
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			8442106207419411,
-			[
-			[
-				61,
-				cr.plugins_.HTML_Img.prototype.cnds.OnComplete,
-				null,
-				1,
-				false,
-				false,
-				false,
-				4562757247412106,
-				false
-			]
-			],
-			[
-			[
-				54,
-				cr.plugins_.Sprite.prototype.acts.SetVisible,
-				null,
-				6222240897852577,
-				false
-				,[
-				[
-					3,
-					0
-				]
-				]
-			]
-,			[
-				61,
-				cr.plugins_.HTML_Img.prototype.acts.SetVisible,
-				null,
-				7109751265803933,
-				false
-				,[
-				[
-					3,
-					1
+,				[
+					70,
+					cr.plugins_.iScroll.prototype.acts.modify_fonts,
+					null,
+					1131559052654302,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.tokenat
+							,[
+[
+								20,
+								5,
+								cr.plugins_.AJAX.prototype.exps.LastData,
+								true,
+								null
+							]
+,[
+								0,
+								0
+							]
+,[
+								2,
+								"|"
+							]
+							]
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"OpenSansLight"
+						]
+					]
+,					[
+						7,
+						[
+							2,
+							"#5a5a5a"
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
+						]
+					]
+					]
 				]
 				]
 			]
@@ -50328,34 +52616,69 @@ false,false,9202522550363971,false
 			null,
 			false,
 			null,
-			3426399960562394,
+			7277387526772005,
 			[
 			[
-				-1,
-				cr.system_object.prototype.cnds.OnLayoutEnd,
+				98,
+				cr.plugins_.iScroll.prototype.cnds.isClicked,
 				null,
 				1,
 				false,
 				false,
 				false,
-				2682230579951858,
+				6197442760056639,
 				false
+				,[
+				[
+					7,
+					[
+						20,
+						0,
+						cr.plugins_.WebStorage.prototype.exps.LocalValue,
+						true,
+						null
+						,[
+[
+							2,
+							"hcid"
+						]
+						]
+					]
+				]
+				]
 			]
 			],
 			[
 			[
 				-1,
-				cr.system_object.prototype.acts.SaveState,
+				cr.system_object.prototype.acts.SetVar,
 				null,
-				7401844455181757,
+				8853832827368997,
 				false
 				,[
 				[
-					1,
+					11,
+					"edit"
+				]
+,				[
+					7,
 					[
-						2,
-						"mycardsOffline"
+						0,
+						1
 					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				7289032702650223,
+				false
+				,[
+				[
+					6,
+					"HelloCard"
 				]
 				]
 			]
@@ -50481,6 +52804,47 @@ false,false,9202522550363971,false
 				]
 				]
 			]
+,			[
+				98,
+				cr.plugins_.iScroll.prototype.acts.SetWidth,
+				null,
+				2828253051358336,
+				false
+				,[
+				[
+					0,
+					[
+						4,
+						[
+							19,
+							cr.system_object.prototype.exps.abs
+							,[
+[
+								19,
+								cr.system_object.prototype.exps.viewportleft
+								,[
+[
+									0,
+									0
+								]
+								]
+							]
+							]
+						]
+						,[
+							19,
+							cr.system_object.prototype.exps.viewportright
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+				]
+				]
+			]
 			]
 			,[
 			[
@@ -50539,6 +52903,41 @@ false,false,9202522550363971,false
 						]
 					]
 					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			4020510752979092,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				2668793243002132,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				8421578364880554,
+				false
+				,[
+				[
+					6,
+					"Search"
 				]
 				]
 			]
@@ -51796,6 +54195,41 @@ false,false,9202522550363971,false
 			]
 			],
 			[
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			5675621914879106,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7779314583377153,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				8840102255475012,
+				false
+				,[
+				[
+					6,
+					"Search"
+				]
+				]
+			]
 			]
 		]
 		]
@@ -73328,6 +75762,41 @@ false,false,858584354635174,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			1459149195712658,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				3975781032753258,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				173894857104092,
+				false
+				,[
+				[
+					6,
+					"Login"
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -75218,110 +77687,27 @@ false,false,858584354635174,false
 			null,
 			false,
 			null,
-			7760321749006559,
+			7994666852555628,
 			[
 			[
-				1,
-				cr.plugins_.Touch.prototype.cnds.OnTapGesture,
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
 				null,
 				1,
 				false,
 				false,
 				false,
-				3575420453601008,
+				5321661575845309,
 				false
 			]
 			],
 			[
 			[
-				95,
-				cr.plugins_.PhonegapDialog.prototype.acts.Confirm,
+				97,
+				cr.plugins_.Phonegap.prototype.acts.CloseIfTwice,
 				null,
-				5581262667788803,
+				3001167736865565,
 				false
-				,[
-				[
-					1,
-					[
-						2,
-						"Tap Yes"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"do u want to test notifications?"
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			2872399320396642,
-			[
-			[
-				95,
-				cr.plugins_.PhonegapDialog.prototype.cnds.ConfirmYesClicked,
-				null,
-				1,
-				false,
-				false,
-				false,
-				5157201027137948,
-				false
-			]
-			],
-			[
-			[
-				96,
-				cr.plugins_.PhonegapLocalNotification.prototype.acts.SendLocalNotification,
-				null,
-				8401942022223416,
-				false
-				,[
-				[
-					0,
-					[
-						0,
-						1
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"you clicked yes"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"yes yes"
-					]
-				]
-,				[
-					3,
-					1
-				]
-,				[
-					0,
-					[
-						0,
-						0
-					]
-				]
-,				[
-					3,
-					0
-				]
-				]
 			]
 			]
 		]
@@ -75441,6 +77827,13 @@ false,false,858584354635174,false
 					]
 				]
 				]
+			]
+,			[
+				96,
+				cr.plugins_.PhonegapLocalNotification.prototype.acts.CancelAllLocalNotifications,
+				null,
+				4640809545839092,
+				false
 			]
 			]
 			,[
@@ -77639,6 +80032,41 @@ false,false,858584354635174,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			3336613074446506,
+			[
+			[
+				97,
+				cr.plugins_.Phonegap.prototype.cnds.OnBack,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7524328808074834,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				5144156042347461,
+				false
+				,[
+				[
+					6,
+					"MyCards"
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 	],
@@ -77657,7 +80085,7 @@ false,false,858584354635174,false
 	false,
 	0,
 	1,
-	294,
+	295,
 	true,
 	true,
 	2,
