@@ -18486,7 +18486,12 @@ cr.plugins_.PhonegapDialog = function(runtime)
 			self.runtime.trigger(cr.plugins_.PhonegapDialog.prototype.cnds.TriggerCondition, self);
 		});
 */
-		this.PromptInput=null;
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
+		this.title = null;
+		this.PromptInput = null;
 	};
 	instanceProto.draw = function(ctx)
 	{
@@ -18531,19 +18536,29 @@ cr.plugins_.PhonegapDialog = function(runtime)
 	{
 		return true;
 	};
+	Cnds.prototype.TitleIs = function (title_)
+	{
+		return this.title == title_;
+	};
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
 	Acts.prototype.Confirm = function (title,message)
 	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
 		var self=this;
 		navigator["notification"]["confirm"](
 			message,
 			function (buttonIndex){
 				if (buttonIndex==1)
 				{
+					self.title = title;
 					self.runtime.trigger(cr.plugins_.PhonegapDialog.prototype.cnds.ConfirmYesClicked, self);
 				}
 				else if (buttonIndex==2) {
+					self.title = title;
 					self.runtime.trigger(cr.plugins_.PhonegapDialog.prototype.cnds.ConfirmNoClicked, self);
 				};
 			},
@@ -18553,14 +18568,20 @@ cr.plugins_.PhonegapDialog = function(runtime)
 	};
 	Acts.prototype.Prompt = function (title,message)
 	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
 		var self=this;
 		function onPrompt(results) {
 			alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
 			if (results.buttonIndex==1){
+				self.title = title;
 				self.PromptInput=results.input1;
 				self.runtime.trigger(cr.plugins_.PhonegapDialog.prototype.cnds.PromptOkClicked, self);
 			}
 			else if (results.buttonIndex==2){
+				self.title = title;
 				self.runtime.trigger(cr.plugins_.PhonegapDialog.prototype.cnds.PromptCancelClicked, self);
 			}
 		}
@@ -18574,10 +18595,18 @@ cr.plugins_.PhonegapDialog = function(runtime)
 	}
 	Acts.prototype.Beep = function (count)
 	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
 		navigator["notification"]["beep"](count);
 	}
 	Acts.prototype.Alert = function (title, message)
 	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
 		function alertDismissed() {
 		}
 		navigator["notification"]["alert"](
@@ -26057,18 +26086,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.FacebookMod,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.HTML_Div,
 		false,
 		true,
@@ -26093,6 +26110,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Geolocation,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.HTML_Img,
 		false,
 		true,
@@ -26105,7 +26134,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Geolocation,
+		cr.plugins_.FacebookMod,
 		true,
 		false,
 		false,
@@ -26129,31 +26158,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.PhonegapDialog,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.sliderbar,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.PhonegapLocalNotification,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.PhonegapDialog,
 		true,
 		false,
 		false,
@@ -26177,7 +26194,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.sliderbar,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.Sprite,
 		false,
 		true,
 		true,
@@ -26201,7 +26230,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Sprite,
+		cr.plugins_.Text,
 		false,
 		true,
 		true,
@@ -26210,6 +26239,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -26234,18 +26275,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 	],
@@ -40862,468 +40891,11 @@ false,false,8816726575399049,false
 				null,
 				false,
 				null,
-				8250022692047847,
-				[
-				[
-					0,
-					cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
-					null,
-					0,
-					false,
-					false,
-					false,
-					4177190140851269,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"numOfNotifications"
-						]
-					]
-,					[
-						8,
-						2
-					]
-,					[
-						0,
-						[
-							7,
-							[
-								5,
-								[
-									19,
-									cr.system_object.prototype.exps.tokencount
-									,[
-[
-										20,
-										5,
-										cr.plugins_.AJAX.prototype.exps.LastData,
-										true,
-										null
-									]
-,[
-										2,
-										"|"
-									]
-									]
-								]
-								,[
-									0,
-									1
-								]
-							]
-							,[
-								0,
-								5
-							]
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.cnds.Compare,
-					null,
-					0,
-					false,
-					false,
-					false,
-					8765226141883579,
-					false
-					,[
-					[
-						7,
-						[
-							5,
-							[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									7,
-									[
-										5,
-										[
-											19,
-											cr.system_object.prototype.exps.tokencount
-											,[
-[
-												20,
-												5,
-												cr.plugins_.AJAX.prototype.exps.LastData,
-												true,
-												null
-											]
-,[
-												2,
-												"|"
-											]
-											]
-										]
-										,[
-											0,
-											1
-										]
-									]
-									,[
-										0,
-										5
-									]
-								]
-								]
-							]
-							,[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									20,
-									0,
-									cr.plugins_.WebStorage.prototype.exps.LocalValue,
-									true,
-									null
-									,[
-[
-										2,
-										"numOfNotifications"
-									]
-									]
-								]
-								]
-							]
-						]
-					]
-,					[
-						8,
-						4
-					]
-,					[
-						7,
-						[
-							23,
-							"notifyEnable"
-						]
-					]
-					]
-				]
-				],
-				[
-				[
-					87,
-					cr.plugins_.Sprite.prototype.acts.SetOpacity,
-					null,
-					5696350489538125,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							100
-						]
-					]
-					]
-				]
-,				[
-					91,
-					cr.plugins_.Sprite.prototype.acts.SetVisible,
-					null,
-					4714772763992016,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					92,
-					cr.plugins_.Text.prototype.acts.SetVisible,
-					null,
-					4332531116889504,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					92,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					4800045369879218,
-					false
-					,[
-					[
-						7,
-						[
-							5,
-							[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									7,
-									[
-										5,
-										[
-											19,
-											cr.system_object.prototype.exps.tokencount
-											,[
-[
-												20,
-												5,
-												cr.plugins_.AJAX.prototype.exps.LastData,
-												true,
-												null
-											]
-,[
-												2,
-												"|"
-											]
-											]
-										]
-										,[
-											0,
-											1
-										]
-									]
-									,[
-										0,
-										5
-									]
-								]
-								]
-							]
-							,[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									20,
-									0,
-									cr.plugins_.WebStorage.prototype.exps.LocalValue,
-									true,
-									null
-									,[
-[
-										2,
-										"numOfNotifications"
-									]
-									]
-								]
-								]
-							]
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					3184179983448002,
-					false
-					,[
-					[
-						11,
-						"notifyEnable"
-					]
-,					[
-						7,
-						[
-							5,
-							[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									7,
-									[
-										5,
-										[
-											19,
-											cr.system_object.prototype.exps.tokencount
-											,[
-[
-												20,
-												5,
-												cr.plugins_.AJAX.prototype.exps.LastData,
-												true,
-												null
-											]
-,[
-												2,
-												"|"
-											]
-											]
-										]
-										,[
-											0,
-											1
-										]
-									]
-									,[
-										0,
-										5
-									]
-								]
-								]
-							]
-							,[
-								19,
-								cr.system_object.prototype.exps["int"]
-								,[
-[
-									20,
-									0,
-									cr.plugins_.WebStorage.prototype.exps.LocalValue,
-									true,
-									null
-									,[
-[
-										2,
-										"numOfNotifications"
-									]
-									]
-								]
-								]
-							]
-						]
-					]
-					]
-				]
-,				[
-					96,
-					cr.plugins_.PhonegapLocalNotification.prototype.acts.SendLocalNotification,
-					null,
-					1538421538216045,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							1
-						]
-					]
-,					[
-						1,
-						[
-							2,
-							"HelloCard"
-						]
-					]
-,					[
-						1,
-						[
-							10,
-							[
-								10,
-								[
-									2,
-									"you have "
-								]
-								,[
-									5,
-									[
-										19,
-										cr.system_object.prototype.exps["int"]
-										,[
-[
-											7,
-											[
-												5,
-												[
-													19,
-													cr.system_object.prototype.exps.tokencount
-													,[
-[
-														20,
-														5,
-														cr.plugins_.AJAX.prototype.exps.LastData,
-														true,
-														null
-													]
-,[
-														2,
-														"|"
-													]
-													]
-												]
-												,[
-													0,
-													1
-												]
-											]
-											,[
-												0,
-												5
-											]
-										]
-										]
-									]
-									,[
-										19,
-										cr.system_object.prototype.exps["int"]
-										,[
-[
-											20,
-											0,
-											cr.plugins_.WebStorage.prototype.exps.LocalValue,
-											true,
-											null
-											,[
-[
-												2,
-												"numOfNotifications"
-											]
-											]
-										]
-										]
-									]
-								]
-							]
-							,[
-								2,
-								" new notification"
-							]
-						]
-					]
-,					[
-						3,
-						1
-					]
-,					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
 				5719691782879189,
 				[
 				[
-					0,
-					cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
 					0,
 					false,
@@ -41333,48 +40905,18 @@ false,false,8816726575399049,false
 					false
 					,[
 					[
-						1,
-						[
-							2,
-							"numOfNotifications"
-						]
+						11,
+						"notifyEnable"
 					]
 ,					[
 						8,
 						0
 					]
 ,					[
-						0,
+						7,
 						[
-							7,
-							[
-								5,
-								[
-									19,
-									cr.system_object.prototype.exps.tokencount
-									,[
-[
-										20,
-										5,
-										cr.plugins_.AJAX.prototype.exps.LastData,
-										true,
-										null
-									]
-,[
-										2,
-										"|"
-									]
-									]
-								]
-								,[
-									0,
-									1
-								]
-							]
-							,[
-								0,
-								5
-							]
+							0,
+							0
 						]
 					]
 					]
@@ -41418,6 +40960,729 @@ false,false,8816726575399049,false
 					false
 					,[
 					[
+						3,
+						0
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				8913893912824259,
+				[
+				[
+					0,
+					cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3206554633324607,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"numOfNotifications"
+						]
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					8250022692047847,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.Compare,
+						null,
+						0,
+						false,
+						false,
+						false,
+						8765226141883579,
+						false
+						,[
+						[
+							7,
+							[
+								5,
+								[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										7,
+										[
+											5,
+											[
+												19,
+												cr.system_object.prototype.exps.tokencount
+												,[
+[
+													20,
+													5,
+													cr.plugins_.AJAX.prototype.exps.LastData,
+													true,
+													null
+												]
+,[
+													2,
+													"|"
+												]
+												]
+											]
+											,[
+												0,
+												1
+											]
+										]
+										,[
+											0,
+											5
+										]
+									]
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										20,
+										0,
+										cr.plugins_.WebStorage.prototype.exps.LocalValue,
+										true,
+										null
+										,[
+[
+											2,
+											"numOfNotifications"
+										]
+										]
+									]
+									]
+								]
+							]
+						]
+,						[
+							8,
+							4
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						87,
+						cr.plugins_.Sprite.prototype.acts.SetOpacity,
+						null,
+						5696350489538125,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								100
+							]
+						]
+						]
+					]
+,					[
+						91,
+						cr.plugins_.Sprite.prototype.acts.SetVisible,
+						null,
+						4714772763992016,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						92,
+						cr.plugins_.Text.prototype.acts.SetVisible,
+						null,
+						4332531116889504,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						92,
+						cr.plugins_.Text.prototype.acts.SetText,
+						null,
+						4800045369879218,
+						false
+						,[
+						[
+							7,
+							[
+								5,
+								[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										7,
+										[
+											5,
+											[
+												19,
+												cr.system_object.prototype.exps.tokencount
+												,[
+[
+													20,
+													5,
+													cr.plugins_.AJAX.prototype.exps.LastData,
+													true,
+													null
+												]
+,[
+													2,
+													"|"
+												]
+												]
+											]
+											,[
+												0,
+												1
+											]
+										]
+										,[
+											0,
+											5
+										]
+									]
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										20,
+										0,
+										cr.plugins_.WebStorage.prototype.exps.LocalValue,
+										true,
+										null
+										,[
+[
+											2,
+											"numOfNotifications"
+										]
+										]
+									]
+									]
+								]
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						3184179983448002,
+						false
+						,[
+						[
+							11,
+							"notifyEnable"
+						]
+,						[
+							7,
+							[
+								5,
+								[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										7,
+										[
+											5,
+											[
+												19,
+												cr.system_object.prototype.exps.tokencount
+												,[
+[
+													20,
+													5,
+													cr.plugins_.AJAX.prototype.exps.LastData,
+													true,
+													null
+												]
+,[
+													2,
+													"|"
+												]
+												]
+											]
+											,[
+												0,
+												1
+											]
+										]
+										,[
+											0,
+											5
+										]
+									]
+									]
+								]
+								,[
+									19,
+									cr.system_object.prototype.exps["int"]
+									,[
+[
+										20,
+										0,
+										cr.plugins_.WebStorage.prototype.exps.LocalValue,
+										true,
+										null
+										,[
+[
+											2,
+											"numOfNotifications"
+										]
+										]
+									]
+									]
+								]
+							]
+						]
+						]
+					]
+,					[
+						0,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						7581848356531364,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"numOfNotifications"
+							]
+						]
+,						[
+							7,
+							[
+								19,
+								cr.system_object.prototype.exps["int"]
+								,[
+[
+									7,
+									[
+										5,
+										[
+											19,
+											cr.system_object.prototype.exps.tokencount
+											,[
+[
+												20,
+												5,
+												cr.plugins_.AJAX.prototype.exps.LastData,
+												true,
+												null
+											]
+,[
+												2,
+												"|"
+											]
+											]
+										]
+										,[
+											0,
+											1
+										]
+									]
+									,[
+										0,
+										5
+									]
+								]
+								]
+							]
+						]
+						]
+					]
+,					[
+						96,
+						cr.plugins_.PhonegapLocalNotification.prototype.acts.SendLocalNotification,
+						null,
+						1538421538216045,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								1
+							]
+						]
+,						[
+							1,
+							[
+								2,
+								"HelloCard"
+							]
+						]
+,						[
+							1,
+							[
+								10,
+								[
+									10,
+									[
+										2,
+										"you have "
+									]
+									,[
+										23,
+										"notifyEnable"
+									]
+								]
+								,[
+									2,
+									" new notification"
+								]
+							]
+						]
+,						[
+							3,
+							1
+						]
+,						[
+							0,
+							[
+								0,
+								0
+							]
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2736113487460484,
+				[
+				[
+					0,
+					cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+					null,
+					0,
+					false,
+					true,
+					false,
+					1444328822665654,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"numOfNotifications"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					87,
+					cr.plugins_.Sprite.prototype.acts.SetOpacity,
+					null,
+					3877449816734489,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							100
+						]
+					]
+					]
+				]
+,				[
+					91,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					649012704370899,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					92,
+					cr.plugins_.Text.prototype.acts.SetVisible,
+					null,
+					9163402001176516,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					92,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					2377506451631678,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps["int"]
+							,[
+[
+								7,
+								[
+									5,
+									[
+										19,
+										cr.system_object.prototype.exps.tokencount
+										,[
+[
+											20,
+											5,
+											cr.plugins_.AJAX.prototype.exps.LastData,
+											true,
+											null
+										]
+,[
+											2,
+											"|"
+										]
+										]
+									]
+									,[
+										0,
+										1
+									]
+								]
+								,[
+									0,
+									5
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+					null,
+					1773173003602191,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"numOfNotifications"
+						]
+					]
+,					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps["int"]
+							,[
+[
+								7,
+								[
+									5,
+									[
+										19,
+										cr.system_object.prototype.exps.tokencount
+										,[
+[
+											20,
+											5,
+											cr.plugins_.AJAX.prototype.exps.LastData,
+											true,
+											null
+										]
+,[
+											2,
+											"|"
+										]
+										]
+									]
+									,[
+										0,
+										1
+									]
+								]
+								,[
+									0,
+									5
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1652641258296698,
+					false
+					,[
+					[
+						11,
+						"notifyEnable"
+					]
+,					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps["int"]
+							,[
+[
+								7,
+								[
+									5,
+									[
+										19,
+										cr.system_object.prototype.exps.tokencount
+										,[
+[
+											20,
+											5,
+											cr.plugins_.AJAX.prototype.exps.LastData,
+											true,
+											null
+										]
+,[
+											2,
+											"|"
+										]
+										]
+									]
+									,[
+										0,
+										1
+									]
+								]
+								,[
+									0,
+									5
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					96,
+					cr.plugins_.PhonegapLocalNotification.prototype.acts.SendLocalNotification,
+					null,
+					2260447579723437,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"HelloCard"
+						]
+					]
+,					[
+						1,
+						[
+							10,
+							[
+								10,
+								[
+									2,
+									"you have "
+								]
+								,[
+									23,
+									"notifyEnable"
+								]
+							]
+							,[
+								2,
+								" new notification"
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
 						3,
 						0
 					]
@@ -77855,6 +78120,35 @@ false,false,858584354635174,false
 			null,
 			false,
 			null,
+			8057459010053115,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.OnLayoutStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				778278558738095,
+				false
+			]
+			],
+			[
+			[
+				0,
+				cr.plugins_.WebStorage.prototype.acts.ClearLocal,
+				null,
+				811305697575538,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			7994666852555628,
 			[
 			[
@@ -79934,14 +80228,14 @@ false,false,858584354635174,false
 			],
 			[
 			[
-				90,
-				cr.plugins_.iosdialogs.prototype.acts.alertbox,
+				95,
+				cr.plugins_.PhonegapDialog.prototype.acts.Confirm,
 				null,
-				7668328426087362,
+				1979442428483775,
 				false
 				,[
 				[
-					0,
+					1,
 					[
 						20,
 						89,
@@ -79951,40 +80245,11 @@ false,false,858584354635174,false
 					]
 				]
 ,				[
-					7,
+					1,
 					[
 						2,
 						"Accept Request?"
 					]
-				]
-,				[
-					7,
-					[
-						2,
-						""
-					]
-				]
-,				[
-					3,
-					2
-				]
-,				[
-					7,
-					[
-						2,
-						"Yes"
-					]
-				]
-,				[
-					7,
-					[
-						2,
-						"Close"
-					]
-				]
-,				[
-					3,
-					0
 				]
 				]
 			]
@@ -80021,8 +80286,8 @@ false,false,858584354635174,false
 			372133327066446,
 			[
 			[
-				90,
-				cr.plugins_.iosdialogs.prototype.cnds.isFirstClicked,
+				95,
+				cr.plugins_.PhonegapDialog.prototype.cnds.ConfirmYesClicked,
 				null,
 				1,
 				false,
@@ -80030,18 +80295,6 @@ false,false,858584354635174,false
 				false,
 				4339719173606857,
 				false
-				,[
-				[
-					7,
-					[
-						21,
-						89,
-						true,
-						null
-						,0
-					]
-				]
-				]
 			]
 			],
 			[
