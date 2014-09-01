@@ -20,5 +20,8 @@
 	<!-- <gap:splash src="splash.png" width="1024" height="768" /> -->
 <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.4" />
 <gap:plugin name="org.apache.cordova.dialogs" version="0.2.6" />
-
+<gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.4.0">
+    <param name="APP_ID" value="576508812455924" />
+    <param name="APP_NAME" value="01742008196573526abc4ae01742008196573526abc4ae1bbeb71041bbeb7104" />
+</gap:plugin>
 </widget>
