@@ -18542,7 +18542,7 @@ cr.plugins_.PhonegapDialog = function(runtime)
 	};
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
-	Acts.prototype.Confirm = function (title,message)
+	Acts.prototype.Confirm = function (title, message)
 	{
 		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
 			return;
@@ -26086,11 +26086,35 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.HTML_Img,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.HTML_Div,
 		false,
 		true,
 		true,
 		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.FacebookMod,
+		true,
+		false,
+		false,
+		false,
 		false,
 		false,
 		false,
@@ -26122,31 +26146,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Img,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.FacebookMod,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Keyboard,
+		cr.plugins_.PhonegapDialog,
 		true,
 		false,
 		false,
@@ -26170,7 +26170,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.PhonegapDialog,
+		cr.plugins_.Keyboard,
 		true,
 		false,
 		false,
@@ -26218,6 +26218,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
 		cr.plugins_.TextBox,
 		false,
 		true,
@@ -26230,12 +26242,12 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.UserMedia,
 		false,
 		true,
 		true,
 		true,
-		true,
+		false,
 		true,
 		true,
 		true,
@@ -26263,18 +26275,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false,
-		false
-	]
-,	[
-		cr.plugins_.UserMedia,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
 		false
 	]
 	],
@@ -26811,7 +26811,7 @@ cr.getProjectModel = function() { return [
 		cr.plugins_.Text,
 		false,
 		[9586885805124056],
-		1,
+		2,
 		0,
 		null,
 		null,
@@ -26820,6 +26820,11 @@ cr.getProjectModel = function() { return [
 			"Pin",
 			cr.behaviors.Pin,
 			300974994655807
+		]
+,		[
+			"Persist",
+			cr.behaviors.Persist,
+			4075438455399066
 		]
 		],
 		false,
@@ -28699,8 +28704,9 @@ cr.getProjectModel = function() { return [
 			false,
 			6845217934752452,
 			[
-				["images/settingsicons-sheet0.png", 14576, 1, 1, 512, 346, 1, 0.5, 0.5,[],[-0.193358987569809,-0.04624301195144653,0,-0.4364162087440491,0.1933590173721314,-0.04624301195144653,0.1933590173721314,0,0.2285159826278687,0.09826600551605225,0,-0.1156069934368134,-0.228516012430191,0.09826600551605225,-0.193358987569809,0],0],
-				["images/settingsicons-sheet0.png", 14576, 1, 513, 256, 256, 1, 0.5, 0.5,[],[],0]
+				["images/settingsicons-sheet0.png", 12999, 1, 1, 512, 346, 1, 0.5, 0.5,[],[-0.193358987569809,-0.04624301195144653,0,-0.4364162087440491,0.1933590173721314,-0.04624301195144653,0.1933590173721314,0,0.2285159826278687,0.09826600551605225,0,-0.1156069934368134,-0.228516012430191,0.09826600551605225,-0.193358987569809,0],0],
+				["images/settingsicons-sheet1.png", 5559, 0, 0, 256, 256, 1, 0.5, 0.5,[],[],0],
+				["images/settingsicons-sheet0.png", 12999, 1, 513, 512, 346, 1, 0.5, 0.5,[],[-0.2949219942092896,-0.1965320110321045,0.234375,-0.1069360077381134,0.2949219942092896,0,0.234375,0.106935977935791,-0.2949219942092896,0.1965320110321045],0]
 			]
 			]
 		],
@@ -28957,7 +28963,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"sign up with email",
+					"Sign up with email",
 					0,
 					"26pt Open Sans",
 					"rgb(255,255,255)",
@@ -29360,7 +29366,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"< back",
+					"< Back",
 					0,
 					"20pt Open Sans",
 					"rgb(246,246,246)",
@@ -29554,6 +29560,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -29746,7 +29754,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"save",
+					"Save",
 					0,
 					"26pt Open Sans",
 					"rgb(30,30,30)",
@@ -30057,7 +30065,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"< back",
+					"< Back",
 					0,
 					"20pt Open Sans",
 					"rgb(246,246,246)",
@@ -30321,7 +30329,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"< back",
+					"< Back",
 					0,
 					"20pt Open Sans",
 					"rgb(255,255,255)",
@@ -30432,7 +30440,7 @@ cr.getProjectModel = function() { return [
 				],
 				[
 					"",
-					"hellocard id (4 characters)",
+					"Hellocard id (4 characters)",
 					"",
 					1,
 					1,
@@ -30560,7 +30568,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"request sent",
+					"Request sent",
 					1,
 					"18pt Open Sans",
 					"rgb(0,204,0)",
@@ -30858,7 +30866,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					1,
+					0,
 					"",
 					"border-radius:100%;border: 4px solid #ffffff;"
 				]
@@ -30874,7 +30882,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -30896,7 +30904,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -30918,7 +30926,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -30940,7 +30948,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31075,7 +31083,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"save",
+					"Save",
 					0,
 					"20pt Open Sans",
 					"rgb(90,90,90)",
@@ -31394,7 +31402,7 @@ cr.getProjectModel = function() { return [
 				],
 				[
 					"",
-					"search by tags or name.",
+					"Search by tags or name.",
 					"",
 					1,
 					1,
@@ -31416,7 +31424,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31438,7 +31446,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31460,7 +31468,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31482,7 +31490,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31900,7 +31908,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31922,7 +31930,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31944,7 +31952,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -31966,7 +31974,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -32282,6 +32290,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -32322,6 +32332,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -32345,6 +32357,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -32353,6 +32367,48 @@ cr.getProjectModel = function() { return [
 					"26pt Open Sans",
 					"rgb(105,105,105)",
 					1,
+					1,
+					1,
+					0,
+					0
+				]
+			]
+,			[
+				[89, 719, 0, 64, 45, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				94,
+				295,
+				[
+				],
+				[
+				[
+				]
+				],
+				[
+					0,
+					"Default",
+					2,
+					1
+				]
+			]
+,			[
+				[302, 718, 0, 313, 83, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				24,
+				296,
+				[
+					["signout"]
+				],
+				[
+				[
+				],
+				[
+				]
+				],
+				[
+					"Logout",
+					0,
+					"26pt Open Sans",
+					"rgb(105,105,105)",
+					0,
 					1,
 					1,
 					0,
@@ -32566,7 +32622,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -32588,7 +32644,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -32610,7 +32666,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -32632,7 +32688,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -32705,6 +32761,8 @@ cr.getProjectModel = function() { return [
 					[""]
 				],
 				[
+				[
+				],
 				[
 				]
 				],
@@ -32826,7 +32884,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"Designation, Company",
+					"Loading...",
 					0,
 					"16pt Open Sans",
 					"rgb(255,255,255)",
@@ -32949,7 +33007,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"9999999999",
+					"Loading...",
 					0,
 					"20pt Open Sans",
 					"rgb(105,105,105)",
@@ -32972,7 +33030,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"john.gresham@company.com",
+					"Loading...",
 					0,
 					"16pt Open Sans",
 					"rgb(105,105,105)",
@@ -32992,7 +33050,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"John Gresham",
+					"Loading...",
 					0,
 					"28pt Open Sans",
 					"rgb(255,255,255)",
@@ -33064,7 +33122,7 @@ cr.getProjectModel = function() { return [
 				],
 				[
 					"",
-					"email",
+					"Email",
 					"",
 					0,
 					0,
@@ -33090,7 +33148,7 @@ cr.getProjectModel = function() { return [
 				],
 				[
 					1,
-					"",
+					"http://hellocard.co/hellocard-app/files/phpimg/default.png",
 					"border-radius:100px;border: 6px solid #ffffff;"
 				]
 			]
@@ -33124,7 +33182,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"www.example.com",
+					"Loading...",
 					0,
 					"20pt Open Sans",
 					"rgb(105,105,105)",
@@ -33382,7 +33440,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"< back",
+					"< Back",
 					0,
 					"20pt Open Sans",
 					"rgb(255,255,255)",
@@ -33405,7 +33463,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"edit",
+					"Edit",
 					1,
 					"20pt Open Sans",
 					"rgb(255,255,255)",
@@ -33514,7 +33572,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"save",
+					"Save",
 					0,
 					"20pt Open Sans",
 					"rgb(68,187,155)",
@@ -33587,7 +33645,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -33609,7 +33667,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -33631,7 +33689,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -33653,7 +33711,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -34651,7 +34709,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"search",
+					"Search",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -34673,7 +34731,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"saved",
+					"Saved",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -34695,7 +34753,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"my cards",
+					"My cards",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -34717,7 +34775,7 @@ cr.getProjectModel = function() { return [
 				]
 				],
 				[
-					"settings",
+					"Settings",
 					0,
 					"18pt Open Sans",
 					"rgb(255,255,255)",
@@ -53170,6 +53228,29 @@ false,false,9202522550363971,false
 				]
 				]
 			]
+,			[
+				95,
+				cr.plugins_.PhonegapDialog.prototype.acts.Alert,
+				null,
+				7475710904215677,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Add New Card"
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						"We are adding this feature soon.!!"
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -54567,6 +54648,68 @@ false,false,9202522550363971,false
 				]
 				]
 			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				260951571499805,
+				[
+				[
+					24,
+					cr.plugins_.Text.prototype.cnds.CompareInstanceVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					2558650060578369,
+					false
+					,[
+					[
+						10,
+						0
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							2,
+							"signout"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					95,
+					cr.plugins_.PhonegapDialog.prototype.acts.Confirm,
+					null,
+					5859063749382587,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"Log out"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"Do u want to logout?"
+						]
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -54607,27 +54750,181 @@ false,false,9202522550363971,false
 			],
 			[
 			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			7416727294896229,
+			,[
 			[
-			[
-				1,
-				cr.plugins_.Touch.prototype.cnds.OnHoldGesture,
+				0,
 				null,
-				1,
 				false,
-				false,
-				false,
-				8092682504722842,
-				false
+				null,
+				6504495402700137,
+				[
+				[
+					94,
+					cr.plugins_.Sprite.prototype.cnds.CompareFrame,
+					null,
+					0,
+					false,
+					false,
+					false,
+					5391895930253039,
+					false
+					,[
+					[
+						8,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					2,
+					cr.plugins_.Browser.prototype.acts.GoToURLWindow,
+					null,
+					7172034161019297,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"mailto:support@hellocard.co?subject=I found a bug&body=it looks like this."
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"share"
+						]
+					]
+					]
+				]
+				]
 			]
-			],
-			[
+,			[
+				0,
+				null,
+				false,
+				null,
+				6527491979520699,
+				[
+				[
+					94,
+					cr.plugins_.Sprite.prototype.cnds.CompareFrame,
+					null,
+					0,
+					false,
+					false,
+					false,
+					1473386889445838,
+					false
+					,[
+					[
+						8,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					2,
+					cr.plugins_.Browser.prototype.acts.GoToURLWindow,
+					null,
+					2803493283304584,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"http://hellocard.co"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"share"
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				1416618024060245,
+				[
+				[
+					94,
+					cr.plugins_.Sprite.prototype.cnds.CompareFrame,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3578048305400661,
+					false
+					,[
+					[
+						8,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							2
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					95,
+					cr.plugins_.PhonegapDialog.prototype.acts.Confirm,
+					null,
+					805539972185603,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"Log out"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"Do u want to logout?"
+						]
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -54660,6 +54957,75 @@ false,false,9202522550363971,false
 				[
 					6,
 					"Search"
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			1800085376743717,
+			[
+			[
+				95,
+				cr.plugins_.PhonegapDialog.prototype.cnds.ConfirmYesClicked,
+				null,
+				1,
+				false,
+				false,
+				false,
+				4292740003261512,
+				false
+			]
+,			[
+				95,
+				cr.plugins_.PhonegapDialog.prototype.cnds.TitleIs,
+				null,
+				0,
+				false,
+				false,
+				false,
+				3640445823121523,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Log out"
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				0,
+				cr.plugins_.WebStorage.prototype.acts.ClearLocal,
+				null,
+				8121694042217968,
+				false
+			]
+,			[
+				0,
+				cr.plugins_.WebStorage.prototype.acts.ClearSession,
+				null,
+				1400048583507883,
+				false
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				7349907796049401,
+				false
+				,[
+				[
+					6,
+					"mainLogin"
 				]
 				]
 			]
@@ -78166,7 +78532,7 @@ false,false,858584354635174,false
 			[
 			[
 				97,
-				cr.plugins_.Phonegap.prototype.acts.CloseIfTwice,
+				cr.plugins_.Phonegap.prototype.acts.Close,
 				null,
 				3001167736865565,
 				false
@@ -80526,7 +80892,7 @@ false,false,858584354635174,false
 	false,
 	0,
 	1,
-	296,
+	297,
 	false,
 	true,
 	2,
