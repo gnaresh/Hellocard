@@ -16941,6 +16941,512 @@ cr.plugins_.CSS_import = function(runtime)
 		}
 	};
 }());
+var FB_Properties = {};
+	var User  = {};
+	var FB_API  = {};
+	FB_API["initialize run"] = "No";
+	FB_API["API READY"] = "No";
+	FB_API["URL GRAPHAPI"] = "https://graph.facebook.com/";
+        FB_API["URL GRAPH ME FIELDS"] = "?fields=website,work,third_party_id,verified,religion,significant_other,timezone,relationship_status,quotes,languages,last_name,link,locale,location,middle_name,name,name_format,political,installed,is_verified,id,about,age_range,bio,birthday,context,cover,currency,devices,education,email,favorite_athletes,favorite_teams,first_name,gender,hometown,inspirational_people&access_token=";
+        FB_API["API Error Code"] = "Not Ready";
+                   FB_API["API Error Message"] = "Not Ready";
+                   FB_API["API Error Type"] = "Not Ready";
+	FB_API["APP TOKEN"] = "Unsecure";
+	FB_API["GRAPH API DATA"] = "None";
+User_Reset_Vars();
+;
+;
+cr.plugins_.Facebook2_1 = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.Facebook2_1.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+	 if(FB_API["initialize run"] != "Yes")
+	 {
+	  FB_API["initialize run"] = "Yes";
+	  if(this.properties[47] == 1)
+	  {
+	  if(this.properties[0] == 0){FB_Properties["API Type"] = "Web";console.log("Web API Chosen.");}
+	   else if(this.properties[0] == 1){FB_Properties["API Type"] = "PhoneGap";console.log("PhoneGap API Chosen.");}
+	   else if(this.properties[0] == 2){FB_Properties["API Type"] = "CocoonJS";console.log("CocoonJS API Chosen.");}
+	  }
+	  else if(this.properties[47] == 0)
+	  {
+	  if (document.location.protocol == 'file:') {FB_Properties["API Type"] = "PhoneGap";console.log("PhoneGap API Chosen.");}
+	  else{FB_Properties["API Type"] = "Web";console.log("Web API Chosen.");}
+	  }
+	  if (FB_Properties["API Type"] == "Web")
+	  {
+	   FB_API["Runtime"] = this.runtime;
+	   FB_API["Instance"] = this;
+	   FB_API["API Layer"] = this.layer;
+	   if (this.properties[1] != "" && this.properties[2] != "")
+	   {
+	    console.log("API -- (App Token) Finished loading App Access Token. Reminder, this better be a secure app(mobile or you know and trust all of the users.");
+	    jQuery.ajax( {url: 'https://graph.facebook.com/oauth/access_token?client_id='+this.properties[1]+'&client_secret='+this.properties[2]+'&grant_type=client_credentials', dataType: 'text', crossDomain: true
+            , success: function( datapic )
+            {datapic = datapic.split("=");
+	     FB_API["APP TOKEN"] = datapic[1];
+		console.log("API -- (App Token) "+datapic[1]);}
+            , error: function( datapic ) {
+	     FB_API["API Error Code"] = "API";
+             FB_API["API Error Message"] = datapic;
+             FB_API["API Error Type"] = "App Token";
+	     console.log("API -- (App Token) Error "+datapic);
+	     }
+            });
+	    }
+	   Web_Language_Set(this.properties[3]);//Load the language to use from the Edit Time settings.
+	   Web_Permission_Set(this.properties);//Load the permissions to request from the Edit Time settings.
+	   Web_API_Set(this.properties);//Load the SDK properties from the Edit Time settings.
+	   Web_Load_API();//Load the SDK asynchronously
+	   this.elem = document.createElement("div");
+	   this.elem.innerHTML = '';
+           this.elem.id = this.uid;
+	   jQuery(this.elem).appendTo("body");
+	  }
+	  else if (FB_Properties["API Type"] == "PhoneGap")
+	  {
+	   FB_API["Runtime"] = this.runtime;
+	   FB_API["Instance"] = this;
+	   FB_API["API Layer"] = this.layer;
+	   FB_Properties["App ID"] =   this.properties[1];
+	   FB_Properties["App Secret"] =  this.properties[2];
+	   Web_Permission_Set(this.properties);//Load the permissions to request from the Edit Time settings.
+	   Web_API_Set(this.properties);//Load the SDK properties from the Edit Time settings.
+	   if (this.properties[1] != "" && this.properties[2] != "")
+	   {
+	    console.log("API -- (App Token) Finished loading App Access Token. Reminder, this better be a secure app(mobile or you know and trust all of the users.");
+	    jQuery.ajax( {url: 'https://graph.facebook.com/oauth/access_token?client_id='+this.properties[1]+'&client_secret='+this.properties[2]+'&grant_type=client_credentials', dataType: 'text', crossDomain: true
+            , success: function( datapic )
+            {datapic = datapic.split("=");
+	     FB_API["APP TOKEN"] = datapic[1];
+		console.log("API -- (App Token) "+datapic[1]);}
+            , error: function( datapic ) {
+	     FB_API["API Error Code"] = "API";
+             FB_API["API Error Message"] = datapic;
+             FB_API["API Error Type"] = "App Token";
+	     console.log("API -- (App Token) Error "+datapic);
+	     }
+            });
+	    }
+	   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_API_ON_LOAD, FB_API["Instance"]);
+	  }
+	  else if (FB_Properties["API Type"] == "CocoonJS")
+	  {
+	  }
+	 }
+	};
+	instanceProto.onDestroy = function ()
+	{
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+	};
+	instanceProto.tick = function ()
+	{
+	 this.updatePosition();
+	};
+	var last_canvas_offset = null;
+	var last_checked_tick = -1;
+	instanceProto.updatePosition = function (first)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		var left = this.layer.layerToCanvas(this.x, this.y, true);
+		var top = this.layer.layerToCanvas(this.x, this.y, false);
+		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
+		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
+		var widthfactor = this.width > 0 ? 1 : -1;
+		var heightfactor = this.height > 0 ? 1 : -1;
+		var curWinWidth = window.innerWidth;
+		var curWinHeight = window.innerHeight;
+		if (!first && this.lastLeft === left && this.lastTop === top && this.lastRight === right && this.lastBottom === bottom && this.lastWinWidth === curWinWidth && this.lastWinHeight === curWinHeight)
+		{
+			return;
+		}
+		this.rotation2D = "-webkit-transform:rotate("+ 0
+										+"deg);-webkit-transform-origin:0% 0%;"+
+									"-moz-transform:rotate("+ 0
+										+"deg);-moz-transform-origin:0% 0%;"+
+									"-o-transform:rotate("+ 0
+										+"deg);-o-transform-origin:0% 0%;";
+		this.elem.style.cssText += ";"+/*this.CSSstyle +";"+*/ this.rotation2D/* + this.perspectiveValue + this.rotation3D*/;
+		this.lastLeft = left;
+		this.lastTop = top;
+		this.lastRight = right;
+		this.lastBottom = bottom;
+		this.lastWinWidth = curWinWidth;
+		this.lastWinHeight = curWinHeight;
+		var offx = Math.round(left) + jQuery(this.runtime.canvas).offset().left;
+		var offy = Math.round(top) + jQuery(this.runtime.canvas).offset().top;
+		jQuery(this.elem).css("position", "absolute");
+		jQuery(this.elem).offset({left: offx, top: offy});
+		jQuery(this.elem).width(Math.round(right - left));
+		jQuery(this.elem).height(Math.round(bottom - top));
+		this.rotation2D = "-webkit-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-webkit-transform-origin:0% 0%;"+
+									"-moz-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-moz-transform-origin:0% 0%;"+
+									"-o-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-o-transform-origin:0% 0%;";
+		this.elem.style.cssText += ";"+/*this.CSSstyle +";"+*/ this.rotation2D/* + this.perspectiveValue + this.rotation3D*/;
+		if (this.autoFontSize)
+			jQuery(this.elem).css("font-size", ((this.layer.getScale(true) / this.runtime.devicePixelRatio) - 0.2) + "em");
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+	function Cnds() {};
+	Cnds.prototype.CON_API_ON_LOAD = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.CON_USER_SUCCESS = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.CON_USER_FAIL = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.CON_USER_LOGIN = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.CON_USER_LOGOUT = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Phonegap_Login = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Phonegap_Login_Fail = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Social_Box_Fail = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Login_Error = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Story_Success = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Story_Error = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Dialog_App_Share = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Dialog_App_Share_Error = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Dialog_Mess_Share = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Con_Dialog_Mess_Share_Error = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Onpurchsuccess = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.Onpurchfail = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	Cnds.prototype.fail_api_generic = function (){if(FB_API["Instance"].uid != this.uid){return false;}else {return true;}};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.Paydialog = function (quan,qmin,qmax,rid,pid,tc,purl)
+	{
+	 if (check_app_Type("Paydialog","Web") == false) {return;}
+	 FB.ui(
+         {
+          method: 'pay',
+	  action: 'purchaseitem',
+            product: purl,
+	    quantity: quan,
+	    quantity_min: qmin,
+	    quantity_max: qmax,
+	    request_id: rid,
+	    pricepoint_id: pid,
+	    test_currency: tc
+         },
+         function(response) {
+         if (response && !response.error_code)
+	 {
+	  pay_id = response.payment_id;
+	  pay_amt = response.amount;
+	  pay_curr = response.currency;
+	  pay_quant = response.quantity;
+	  pay_rid = response.request_id;
+	  pay_stat = response.status;
+          FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Onpurchsuccess, FB_API["Instance"]);
+         } else
+	 {
+          FB_API["API Error Code"] = "Actions";
+          FB_API["API Error Message"] = "Paydialog has failed or been cancelled.";
+          FB_API["API Error Type"] = "Paydialog";
+	  FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Onpurchfail, FB_API["Instance"]);
+	  console.log("ACTS -- (Paydialog) Error using Pay Dialog");
+         }
+         });
+	};
+	Acts.prototype.Sendmessageurl = function (url)
+	{
+	if (check_app_Type("Sendmessageurl","Web") == false) {return;}
+	FB.ui({method: 'send',
+	         display: 'popup',
+                 link: url,
+              }, function(response)
+	      {
+		if (response && !response.error)
+	          {
+	           FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Dialog_Mess_Share_Error, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendmessageurl) Link shared successfully");
+	          }
+	       else
+	          {
+	           FB_API["API Error Code"] = "Actions";
+                   FB_API["API Error Message"] = "User cancelled share request or an error occured.";
+                   FB_API["API Error Type"] = "Sendshareurl";
+		   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Dialog_Mess_Share_Error, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendmessageurl) Error sharing Link");
+	          }
+	      });
+	};
+	Acts.prototype.Page_Share_App = function ()
+	{
+	if (check_app_Type("Page_Share_App","Web") == false) {return;}
+	FB.ui({method: 'pagetab',
+	         display: 'popup',
+              }, function(response)
+	      {
+		if (response && !response.error)
+	          {
+	           FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Dialog_App_Share, FB_API["Instance"]);
+	           console.log("ACTS -- (Page_Share_App) App shared successfully");
+	          }
+	       else
+	          {
+	           FB_API["API Error Code"] = "Actions";
+                   FB_API["API Error Message"] = "User cancelled share request or an error occured.";
+                   FB_API["API Error Type"] = "Sendshareurl";
+		   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Dialog_App_Share_Error, FB_API["Instance"]);
+	           console.log("ACTS -- (Page_Share_App) Error sharing App");
+	          }
+	      });
+	};
+	Acts.prototype.Sendshareurl = function (ss_url)
+	{
+	if (check_app_Type("Sendshareurl","Web") == false) {return;}
+	FB.ui({method: 'share',
+	         display: 'popup',
+                 href: ss_url,
+              }, function(response)
+	      {
+		if (response && !response.error)
+	          {
+	           FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Story_Success, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendshareurl) URL shared successfully");
+	          }
+	       else
+	          {
+	           FB_API["API Error Code"] = "Actions";
+                   FB_API["API Error Message"] = "User cancelled share request or an error occured.";
+                   FB_API["API Error Type"] = "Sendshareurl";
+		   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Story_Error, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendshareurl) Error sharing URL");
+	          }
+	      });
+	};
+	Acts.prototype.Sendogstory = function (ss_title,ss_url)
+	{
+	 if (check_app_Type("Sendogstory","Web") == false) {return;}
+	FB.ui({
+		   display: 'popup',
+                   method: 'share_open_graph',
+              action_type: ss_title,
+        action_properties: JSON.stringify({
+            object:ss_url,
+              })
+              }, function(response)
+	      {
+		if (response && !response.error)
+	          {
+	           FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Story_Success, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendogstory) Open Graph shared successfully");
+	          }
+	       else
+	          {
+	           FB_API["API Error Code"] = "Actions";
+                   FB_API["API Error Message"] = "User cancelled share request or an error occured.";
+                   FB_API["API Error Type"] = "Sendogstory";
+		   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Story_Error, FB_API["Instance"]);
+	           console.log("ACTS -- (Sendogstory) Error sharing Open Graph Story");
+	          }
+	      });
+	};
+	Acts.prototype.UI_Login = function ()
+	{
+	 if (check_app_Type("UI_Login","Web") == false) {return;}
+	 FB.ui({
+         method: 'oauth',
+         scope: FB_API["scope"],
+        },
+        function(response) {
+         if (response && !response.code) {
+         console.log("ACTS -- (UI_Login) User has logged in");
+        } else {
+         console.log("ACTS -- (UI_Login) User login failed");
+	 FB_API["API Error Code"] = "Actions";
+         FB_API["API Error Message"] = "UI_Login been cancelled or an error occured.";
+         FB_API["API Error Type"] = "UI_Login";
+	 FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Login_Error, FB_API["Instance"]);
+        }
+        }
+        );
+	};
+	Acts.prototype.Create_Login_Button = function (cr_logout,pic_rows,def_audience,pic_s)
+	{
+	if (check_app_Type("Create_Login_Button","Web") == false) {return;}
+	if(cr_logout == 0){cr_logout = 'true';}else{cr_logout = 'false';}
+	if(def_audience == 0){def_audience = 'everyone';}else if(def_audience == 1){def_audience = 'friends';}else{def_audience = 'only_me';}
+	if(pic_s == 0){pic_s = 'small';}else if(pic_s == 1){pic_s = 'medium';}else if(pic_s == 2){pic_s = 'large';}else{pic_s = 'xlarge';}
+	var faces_yes = false;
+	if (pic_rows >=1) {faces_yes = true;}
+	jQuery(this.elem).remove();
+		this.elem = null;
+	this.elem = document.createElement("div");
+		 this.elem.style.overflowY = "auto";
+		 jQuery(this.elem).css("position", "absolute");
+		 this.elem.innerHTML = '<fb:login-button scope="'+FB_API["scope"]+'" default_audience="'+def_audience+'" max_rows="'+pic_rows+'" size="'+pic_s+'" show_faces="'+faces_yes+'" auto_logout_link="'+cr_logout+'"></fb:login-button>';
+                 this.elem.id = this.uid;
+		 jQuery(this.elem).appendTo("body");
+		 var left = this.layer.layerToCanvas(this.x, this.y, true);
+		var top = this.layer.layerToCanvas(this.x, this.y, false);
+		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
+		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
+		var offx = Math.round(left) + jQuery(this.runtime.canvas).offset().left;
+		var offy = Math.round(top) + jQuery(this.runtime.canvas).offset().top;
+		var widthfactor = this.width > 0 ? 1 : -1;
+		var heightfactor = this.height > 0 ? 1 : -1;
+		jQuery(this.elem).css("position", "absolute");
+		jQuery(this.elem).offset({left: offx, top: offy});
+		jQuery(this.elem).width(Math.round(right - left));
+		jQuery(this.elem).height(Math.round(bottom - top));
+		this.rotation2D = "-webkit-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-webkit-transform-origin:0% 0%;"+
+									"-moz-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-moz-transform-origin:0% 0%;"+
+									"-o-transform:rotate("+ this.angle * widthfactor * heightfactor*180/3.1416
+										+"deg);-o-transform-origin:0% 0%;";
+		this.elem.style.cssText += ";"+/*this.CSSstyle +";"+*/ this.rotation2D/* + this.perspectiveValue + this.rotation3D*/;
+		this.lastLeft = 0;
+		 this.lastTop = 0;
+		 this.lastRight = 0;
+		 this.lastBottom = 0;
+		 this.lastWinWidth = 0;
+		 this.lastWinHeight = 0;
+			this.runtime.tickMe(this);
+	};
+	Acts.prototype.Phonegap_Login = function (url_S,state)
+	{if (check_app_Type("Phonegap_Login","PhoneGap") == false) {FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.Con_Phonegap_Login_Fail, FB_API["Instance"]);return;}
+	 	ios_url = window.open("https://www.facebook.com/dialog/oauth?client_id="+FB_Properties["App ID"]+"&auth_type=rerequest&scope="+FB_API["scope"]+"&state="+state+"&response_type=token&redirect_uri="+url_S, '_blank', 'location=no,toolbar=no');
+		ios_url.addEventListener('loadstart', function(e)
+                { var url = e.url;
+		var fburl = url.indexOf("facebook.com/login");
+                var err = url.indexOf("error");
+	        if (err >= 0 && fburl < 0)
+                {console.log(url);ios_url.close();
+                }
+                var n = url.indexOf("#access_token=");
+	        if (n >= 1){
+                var tokensplit = url.split("#");
+                var token_two = tokensplit[1].split("&");
+                var accessToken1 = token_two[0].split("=");
+                User["User AccessToken"] = accessToken1[1];
+                console.log('InAppBrowser: loadstart event has fired with url: ' + User["User AccessToken"]);
+		Fetch_User("me",User["User AccessToken"],function(FU_Status)
+		     {if (FU_Status == "success") {FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_SUCCESS, FB_API["Instance"]);}
+		      else{FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_FAIL, FB_API["Instance"]);}
+		  });FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_LOGIN, FB_API["Instance"]);
+                ios_url.close();
+		}});
+	};
+	Acts.prototype.create_comment = function (color1,url1,num1,sort1)
+	{if (check_app_Type("create_comment","Web") == false) {return;}
+	 FB_API["Instance Layer"] = this.layer;
+	 FB_API["Instance"] = this;
+	 FB_API["Instance Runtime"] = this.runtime;
+	 boxes_create_comment_box(color1,url1,num1,sort1);
+	};
+	Acts.prototype.Like_Button = function (action1,color1,url1,under1,layout1,tracking1,share1,show1)
+	{if (check_app_Type("create_comment","Web") == false) {return;}
+	 FB_API["Instance Layer"] = this.layer;
+	 FB_API["Instance"] = this;
+	 FB_API["Instance Runtime"] = this.runtime;
+	 if (action1 == 0) {action1="like";}else{action1="recommend";}
+	 if (color1 == 0) {color1="light";}else{color1="dark";}
+	 if (under1 == 0) {under1=true;}else{under1=false;}
+	 if (layout1 == 0) {layout1="standard";}
+	 else if(layout1 == 1) {layout1="button_count";}
+	 else if(layout1 == 2) {layout1="button";}
+	 else if(layout1 == 3) {layout1="box__count";}
+	 if (share1 == 0) {share1=true;}else{share1=false;}
+	 if (show1 == 0) {show1=true;}else{show1=false;}
+	 boxes_create_like_box(action1,color1,url1,under1,layout1,tracking1,share1,show1);
+	};
+	Acts.prototype.graphapi_call = function (url_get,check_type,apitoken)
+	{web_call_Graphapi(url_get,check_type,apitoken);};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.UserVerified = function (ret){ret.set_string(              User["User Verified"]);};
+	Exps.prototype.UserIDThirdParty = function (ret){ret.set_string(          User["User Third Party ID"]);};
+	Exps.prototype.UserTimezone = function (ret){ret.set_string(              User["User timezone"]);};
+	Exps.prototype.UserSignificantOtherName = function (ret){ret.set_string(  User["User Significant Other Name"]);};
+	Exps.prototype.UserSignificantOtherID = function (ret){ret.set_string(    User["User Significant Other ID"]);};
+	Exps.prototype.UserReligion = function (ret){ret.set_string(              User["User Religion"]);};
+	Exps.prototype.UserRelationshipStatus = function (ret){ret.set_string(    User["User Relationship Status"]);};
+	Exps.prototype.UserQuotes = function (ret){ret.set_string(                User["User Quotes"]);};
+	Exps.prototype.UserAgeMax = function (ret){ret.set_string(                User["User Maximum Age Range"]);};
+	Exps.prototype.UserAgeMin = function (ret){ret.set_string(                User["User Minimum Age Range"]);};
+	Exps.prototype.UserIDUser = function (ret){ret.set_string(                User["User ID"]);};
+	Exps.prototype.UserAccessToken = function (ret){ret.set_string(           User["User AccessToken"]);};
+	Exps.prototype.UserAccessTokenExpires = function (ret){ret.set_string(    User["User AccessToken Expires"]);};
+	Exps.prototype.UserLoginStatus = function (ret){ret.set_string(           User["User Login Status"]);};
+	Exps.prototype.APIErrorCode = function (ret){ret.set_string(FB_API["API Error Code"]);};
+	Exps.prototype.APIErrorMessage = function (ret){ret.set_string(FB_API["API Error Type"]);};
+	Exps.prototype.APIErrorType = function (ret){ret.set_string(FB_API["API Error Message"]);};
+	Exps.prototype.UserLink = function (ret){ret.set_string(                  User["User Link"]);};
+	Exps.prototype.UserNameLast = function (ret){ret.set_string(              User["User Last Name"]);};
+	Exps.prototype.UserLocale = function (ret){ret.set_string(                User["User Locale"]);};
+	Exps.prototype.UserNameFormat = function (ret){ret.set_string(            User["User Name Format"]);};
+	Exps.prototype.UserNameFull = function (ret){ret.set_string(              User["User Full Name"]);};
+	Exps.prototype.UserPoliticsViews = function (ret){ret.set_string(         User["User Political Views"]);};
+	Exps.prototype.UserIsVerified = function (ret){ret.set_string(            User["User Is Verified"]);};
+	Exps.prototype.UserAppInstalled = function (ret){ret.set_string(          User["User App Installed"]);};
+	Exps.prototype.UserBirthday = function (ret){ret.set_string(              User["User Birthday"]);};
+	Exps.prototype.UserBio = function (ret){ret.set_string(                   User["User Bio"]);};
+	Exps.prototype.UserCoverPicYOff = function (ret){ret.set_string(          User["User Cover Photo Y Offset"]);};
+	Exps.prototype.UserCoverPicURL = function (ret){ret.set_string           (User["User Cover Photo URL"]);};
+	Exps.prototype.UserCoverPicID = function (ret){ret.set_string(            User["User Cover Photo ID"]);};
+	Exps.prototype.UserCurrencyOffset = function (ret){ret.set_string(        User["User Currency Offset"]);};
+	Exps.prototype.UserUSDExchangeRateInverse = function (ret){ret.set_string(User["User Currency US Exchange Rate Inverse"]);};
+	Exps.prototype.UserUSDExchangeRate = function (ret){ret.set_string(       User["User Currency US Exchange Rate"]);};
+	Exps.prototype.UserCurrency = function (ret){ret.set_string(              User["User Currency"]);};
+	Exps.prototype.UserGender = function (ret){ret.set_string(                User["User Gender"]);};
+	Exps.prototype.UserNameFirst = function (ret){ret.set_string(             User["User First Name"]);};
+	Exps.prototype.UserEmail = function (ret){ret.set_string(                 User["User Email"]);};
+	Exps.prototype.UserAbout = function (ret){ret.set_string(                 User["User About Me"]);};
+	Exps.prototype.UserNameMiddle = function (ret){ret.set_string(            User["User Middle Name"]);};
+	Exps.prototype.UserPictureProfile = function (ret){ret.set_string(        User["User Profile Picture"]);};
+	Exps.prototype.UserDevicesSize = function (ret){ret.set_int(           User["User Devices Size"]);};
+	Exps.prototype.UserDevicesCurrHardware = function (ret){ret.set_string(   User["User Devices Current Hardware"]);};
+	Exps.prototype.UserDevicesCurrOS = function (ret){ret.set_string(         User["User Devices Current OS"]);};
+	Exps.prototype.UserEducationSize = function (ret){ret.set_int(         User["User Education Size"]);};
+	Exps.prototype.UserEducationCurrentType = function (ret){ret.set_string(  User["User Education Current Type"]);};
+	Exps.prototype.UserEducationCurrentName = function (ret){ret.set_string(  User["User Education Current Name"]);};
+	Exps.prototype.UserEducationCurrentID = function (ret){ret.set_string    (User["User Education Current ID"]);};
+	Exps.prototype.UserAthleteFavSize = function (ret){ret.set_int(        User["User Favorite Athletes Size"]);};
+	Exps.prototype.UserAthleteFavCurrentID = function (ret){ret.set_string(   User["User Favorite Athletes Current ID"]);};
+	Exps.prototype.UserAthleteFavCurrentName = function (ret){ret.set_string( User["User Favorite Athletes Current Name"]);};
+	Exps.prototype.UserWebsite = function (ret){ret.set_string(               User["User Website"]);};
+	Exps.prototype.UserHometownName = function (ret){ret.set_string(          User["User Hometown Name"]);};
+	Exps.prototype.UserHometownID = function (ret){ret.set_string(            User["User Hometown ID"]);};
+	Exps.prototype.UserPermissionsGranted = function (ret){ret.set_string(            User["User Granted Permissions"]);};
+	Exps.prototype.AppAccessToken = function (ret){ret.set_string(            FB_API["APP TOKEN"]);};
+	Exps.prototype.GraphAPICallData = function (ret){ret.set_string(            FB_API["GRAPH API DATA"]);};
+	pluginProto.exps = new Exps();
+}());
 ;
 ;
 cr.plugins_.FacebookMod = function(runtime)
@@ -26086,7 +26592,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Img,
+		cr.plugins_.HTML_Div,
 		false,
 		true,
 		true,
@@ -26098,7 +26604,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Div,
+		cr.plugins_.HTML_iFrame,
+		false,
+		true,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.HTML_Img,
 		false,
 		true,
 		true,
@@ -26122,7 +26640,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_iFrame,
+		cr.plugins_.Facebook2_1,
 		false,
 		true,
 		true,
@@ -26146,19 +26664,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.PhonegapDialog,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.PhonegapLocalNotification,
+		cr.plugins_.Phonegap,
 		true,
 		false,
 		false,
@@ -26182,7 +26688,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Phonegap,
+		cr.plugins_.PhonegapLocalNotification,
 		true,
 		false,
 		false,
@@ -26218,6 +26724,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.PhonegapDialog,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Text,
 		false,
 		true,
@@ -26230,11 +26748,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TextBox,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
+		false,
+		false,
 		false,
 		false,
 		false,
@@ -26254,11 +26772,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.TextBox,
+		false,
 		true,
-		false,
-		false,
-		false,
+		true,
+		true,
 		false,
 		false,
 		false,
@@ -26266,7 +26784,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -28796,6 +29314,23 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t99",
+		cr.plugins_.Facebook2_1,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		true,
+		false,
+		6596372252798826,
+		[],
+		null
+	]
+,	[
+		"t100",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -28812,7 +29347,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t100",
+		"t101",
 		cr.plugins_.TextBox,
 		true,
 		[],
@@ -28829,7 +29364,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t101",
+		"t102",
 		cr.plugins_.Text,
 		true,
 		[],
@@ -28847,9 +29382,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[99,48,84,32,62,76,49,42,94,50,93,74,53,46,80]
-,		[100,21,19,18,14,12]
-,		[101,35,45,58,29,75,66,77,82,86,24,9,44,57]
+		[100,48,84,32,62,76,49,42,94,50,93,74,53,46,80]
+,		[101,21,19,18,14,12]
+,		[102,35,45,58,29,75,66,77,82,86,24,9,44,57]
 	],
 	[
 	[
@@ -29017,6 +29552,28 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
+				]
+			]
+,			[
+				[315, 876, 0, 549, 115, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				29,
+				297,
+				[
+				],
+				[
+				[
+				]
+				],
+				[
+					"",
+					0,
+					"16pt Open Sans",
+					"rgb(255,0,0)",
+					1,
+					1,
+					1,
+					0,
+					0
 				]
 			]
 			],
@@ -38241,7 +38798,7 @@ false,false,8816726575399049,false
 				]
 			]
 ,			[
-				101,
+				102,
 				cr.plugins_.Text.prototype.acts.SetWebFont,
 				null,
 				541640155118095,
@@ -38740,14 +39297,14 @@ false,false,8816726575399049,false
 				,[
 				[
 					4,
-					99
+					100
 				]
 				]
 			]
 			],
 			[
 			[
-				99,
+				100,
 				cr.plugins_.Sprite.prototype.acts.SetOpacity,
 				null,
 				1526638455769325,
@@ -38785,7 +39342,7 @@ false,false,8816726575399049,false
 			],
 			[
 			[
-				99,
+				100,
 				cr.plugins_.Sprite.prototype.acts.SetOpacity,
 				null,
 				2364438590112211,
@@ -39423,7 +39980,7 @@ false,false,8816726575399049,false
 				]
 			]
 ,			[
-				100,
+				101,
 				cr.plugins_.TextBox.prototype.acts.SetX,
 				null,
 				1254247266914922,
@@ -39475,7 +40032,7 @@ false,false,8816726575399049,false
 								7,
 								[
 									20,
-									100,
+									101,
 									cr.plugins_.TextBox.prototype.exps.Width,
 									false,
 									null
@@ -76777,23 +77334,6 @@ false,false,858584354635174,false
 				],
 				[
 				[
-					63,
-					cr.plugins_.FacebookMod.prototype.acts.LogIn,
-					null,
-					6187845568381678,
-					false
-					,[
-					[
-						3,
-						1
-					]
-,					[
-						3,
-						1
-					]
-					]
-				]
-,				[
 					0,
 					cr.plugins_.WebStorage.prototype.acts.StoreLocal,
 					null,
@@ -76812,6 +77352,29 @@ false,false,858584354635174,false
 						[
 							0,
 							2
+						]
+					]
+					]
+				]
+,				[
+					99,
+					cr.plugins_.Facebook2_1.prototype.acts.Phonegap_Login,
+					null,
+					8738398588488246,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"http://localhost/"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							""
 						]
 					]
 					]
@@ -78536,6 +79099,47 @@ false,false,858584354635174,false
 				null,
 				3001167736865565,
 				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			3650967724511875,
+			[
+			[
+				99,
+				cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_LOGIN,
+				null,
+				1,
+				false,
+				false,
+				false,
+				8312415516402483,
+				false
+			]
+			],
+			[
+			[
+				29,
+				cr.plugins_.Text.prototype.acts.SetText,
+				null,
+				7672099187992296,
+				false
+				,[
+				[
+					7,
+					[
+						20,
+						99,
+						cr.plugins_.Facebook2_1.prototype.exps.UserNameFull,
+						true,
+						null
+					]
+				]
+				]
 			]
 			]
 		]
@@ -80892,7 +81496,7 @@ false,false,858584354635174,false
 	false,
 	0,
 	1,
-	297,
+	298,
 	false,
 	true,
 	2,
