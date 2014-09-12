@@ -17031,8 +17031,26 @@ cr.plugins_.Facebook2_1 = function(runtime)
 	   FB_API["API Layer"] = this.layer;
 	   FB_Properties["App ID"] =   this.properties[1];
 	   FB_Properties["App Secret"] =  this.properties[2];
+	   Web_Language_Set(this.properties[3]);//Load the language to use from the Edit Time settings.
 	   Web_Permission_Set(this.properties);//Load the permissions to request from the Edit Time settings.
 	   Web_API_Set(this.properties);//Load the SDK properties from the Edit Time settings.
+	   console.log("API -- (Start synch load");
+	   $.getScript('https://connect.facebook.net/'+FB_Properties["Language"]+'/sdk.js', function(jd)
+	    {console.log("API -- (Start synch init");
+             /* FB.init({
+                     appId      : FB_Properties["App ID"],
+                     xfbml      : FB_Properties["Xfbml"],
+		     cookie     : FB_Properties["Cookie"],
+		     status     : FB_Properties["Status"],
+	   frictionlessRequests : FB_Properties["Frictionless Requests"],
+                     version    : FB_Properties["Version"]
+                    });*/console.log("API -- (Start call on load");
+	      FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_API_ON_LOAD, FB_API["Instance"]);
+            });
+	   this.elem = document.createElement("div");
+	   this.elem.innerHTML = '';
+           this.elem.id = this.uid;
+	   jQuery(this.elem).appendTo("body");
 	   if (this.properties[1] != "" && this.properties[2] != "")
 	   {
 	    console.log("API -- (App Token) Finished loading App Access Token. Reminder, this better be a secure app(mobile or you know and trust all of the users.");
@@ -17049,7 +17067,6 @@ cr.plugins_.Facebook2_1 = function(runtime)
 	     }
             });
 	    }
-	   FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_API_ON_LOAD, FB_API["Instance"]);
 	  }
 	  else if (FB_Properties["API Type"] == "CocoonJS")
 	  {
@@ -17358,19 +17375,18 @@ cr.plugins_.Facebook2_1 = function(runtime)
 		Fetch_User("me",User["User AccessToken"],function(FU_Status)
 		     {if (FU_Status == "success") {FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_SUCCESS, FB_API["Instance"]);}
 		      else{FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_FAIL, FB_API["Instance"]);}
-		  });FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_LOGIN, FB_API["Instance"]);
-                ios_url.close();
+		  });ios_url.close();FB_API["Runtime"].trigger(cr.plugins_.Facebook2_1.prototype.cnds.CON_USER_LOGIN, FB_API["Instance"]);
 		}});
 	};
 	Acts.prototype.create_comment = function (color1,url1,num1,sort1)
-	{if (check_app_Type("create_comment","Web") == false) {return;}
+	{//if (check_app_Type("create_comment","Web") == false) {return;}
 	 FB_API["Instance Layer"] = this.layer;
 	 FB_API["Instance"] = this;
 	 FB_API["Instance Runtime"] = this.runtime;
 	 boxes_create_comment_box(color1,url1,num1,sort1);
 	};
 	Acts.prototype.Like_Button = function (action1,color1,url1,under1,layout1,tracking1,share1,show1)
-	{if (check_app_Type("create_comment","Web") == false) {return;}
+	{//if (check_app_Type("Like Button","Web") == false) {return;}
 	 FB_API["Instance Layer"] = this.layer;
 	 FB_API["Instance"] = this;
 	 FB_API["Instance Runtime"] = this.runtime;
@@ -17383,7 +17399,14 @@ cr.plugins_.Facebook2_1 = function(runtime)
 	 else if(layout1 == 3) {layout1="box__count";}
 	 if (share1 == 0) {share1=true;}else{share1=false;}
 	 if (show1 == 0) {show1=true;}else{show1=false;}
-	 boxes_create_like_box(action1,color1,url1,under1,layout1,tracking1,share1,show1);
+	 if (FB_Properties["API Type"] == "PhoneGap")
+	 {
+	  boxes_create_like_boxPG(action1,color1,url1,under1,layout1,tracking1,share1,show1);
+	 }
+	 else
+	 {
+	  boxes_create_like_box(action1,color1,url1,under1,layout1,tracking1,share1,show1);
+	 }
 	};
 	Acts.prototype.graphapi_call = function (url_get,check_type,apitoken)
 	{web_call_Graphapi(url_get,check_type,apitoken);};
@@ -26496,6 +26519,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.appMobi,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.iosdialogs,
 		true,
 		false,
@@ -26509,18 +26544,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.AJAX,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.appMobi,
 		true,
 		false,
 		false,
@@ -26592,54 +26615,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.HTML_Div,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.HTML_iFrame,
-		false,
-		true,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.HTML_Img,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.FacebookMod,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.Facebook2_1,
 		false,
 		true,
@@ -26664,12 +26639,48 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Phonegap,
+		cr.plugins_.HTML_Div,
+		false,
+		true,
+		true,
 		true,
 		false,
 		false,
 		false,
 		false,
+		false
+	]
+,	[
+		cr.plugins_.FacebookMod,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.HTML_Img,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.HTML_iFrame,
+		false,
+		true,
+		true,
+		true,
+		true,
 		false,
 		false,
 		false,
@@ -26724,6 +26735,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Phonegap,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.PhonegapDialog,
 		true,
 		false,
@@ -26748,11 +26771,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.TextBox,
+		false,
 		true,
-		false,
-		false,
-		false,
+		true,
+		true,
 		false,
 		false,
 		false,
@@ -26772,11 +26795,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TextBox,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
+		false,
+		false,
 		false,
 		false,
 		false,
